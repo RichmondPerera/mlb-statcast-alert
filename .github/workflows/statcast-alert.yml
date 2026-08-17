@@ -1,0 +1,33 @@
+name: MLB Statcast Alert
+
+on:
+  workflow_dispatch:
+
+  schedule:
+    # Runs every 15 minutes during the MLB season.
+    # GitHub Actions cron uses UTC.
+    - cron: "*/15 * * * *"
+
+jobs:
+  statcast-alert:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Statcast alert
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python statcast_alert.py
