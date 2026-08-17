@@ -1,45 +1,29 @@
 #!/usr/bin/env python3
 
 """
-MLB Statcast Probable Starter Discord Alert
+MLB Statcast Probable Starter Alert
 
-DATA SOURCES
-------------
-MLB Stats API:
-    - Today's schedule
-    - Probable pitcher identification
-    - Team / opponent / venue
+Data rules:
+- MLB Stats API: schedule + probable pitcher identification only
+- Baseball Savant via pybaseball: all pitching statistics
+- No FanGraphs pitching stats
+- No Baseball Reference pitching stats
+- No MLB pitching-stat endpoints
 
-Baseball Savant via pybaseball:
-    - All pitching performance statistics
-    - Last 3 starts
-    - HR allowed
-    - K / BB / H
-    - AVG / SLG / wOBA / xwOBA
-    - LHB / RHB splits
-
-NOT USED
---------
-- MLB pitching-stat endpoints
-- FanGraphs pitching statistics
-- Baseball Reference pitching statistics
-
-FEATURES
---------
-- Today's probable starters
+Features:
+- Today's probable MLB starters
 - Last 3 starting appearances
-- Combined last 3 starts
-- LHB / RHB splits
-- K / BB / H / HR
-- AVG / SLG / wOBA / xwOBA
+- HR allowed
+- LHB vs RHB splits
+- K, BB, H, HR
+- AVG, SLG, wOBA, xwOBA
 - K%
 - BB%
 - HR/9
-- MLB headshot
+- MLB player headshot
 - Discord webhook
 - Persistent duplicate protection
-- pybaseball Statcast caching
-- --dry-run
+- --dry-run testing mode
 """
 
 from __future__ import annotations
@@ -56,8 +40,7 @@ from typing import Any
 
 import pandas as pd
 import requests
-
-from pybaseball import cache, statcast_pitcher
+from pybaseball import statcast
 
 
 # ============================================================
@@ -67,7 +50,6 @@ from pybaseball import cache, statcast_pitcher
 ROOT = Path(__file__).resolve().parent
 
 DATA_DIR = ROOT / "data"
-
 STATE_FILE = DATA_DIR / "discord_state.json"
 
 MLB_API = "https://statsapi.mlb.com/api/v1"
@@ -76,7 +58,7 @@ USER_AGENT = "MLB-Statcast-Alert/2.0"
 
 DEFAULT_LOOKBACK_DAYS = 45
 
-DEFAULT_STARTS = 3
+DEFAULT_TIMEOUT = 45
 
 DISCORD_WEBHOOK_URL = os.getenv(
     "DISCORD_WEBHOOK_URL",
@@ -89,13 +71,6 @@ HEADSHOT_URL = (
     "q_auto:good/"
     "v1/people/{player_id}/headshot/67/current"
 )
-
-# Enable pybaseball local caching.
-#
-# This is particularly useful because Statcast downloads can
-# be large and pybaseball itself recommends caching for large
-# Statcast requests.
-cache.enable()
 
 
 # ============================================================
@@ -154,16 +129,6 @@ def safe_int(
         return default
 
 
-def fmt_avg(
-    value: float | None,
-) -> str:
-
-    if value is None:
-        return "—"
-
-    return f"{value:.3f}"
-
-
 def fmt_pct(
     value: float | None,
 ) -> str:
@@ -172,6 +137,16 @@ def fmt_pct(
         return "—"
 
     return f"{value * 100:.1f}%"
+
+
+def fmt_avg(
+    value: float | None,
+) -> str:
+
+    if value is None:
+        return "—"
+
+    return f"{value:.3f}"
 
 
 def fmt_one(
@@ -188,15 +163,25 @@ def format_ip(
     outs: int,
 ) -> str:
 
-    innings = outs // 3
+    """
+    Baseball innings notation.
 
+    0 outs = 0.0
+    1 out  = 0.1
+    2 outs = 0.2
+    3 outs = 1.0
+    """
+
+    outs = max(0, int(outs))
+
+    innings = outs // 3
     remainder = outs % 3
 
     return f"{innings}.{remainder}"
 
 
 # ============================================================
-# STATE
+# STATE / DUPLICATE PROTECTION
 # ============================================================
 
 def load_state() -> dict:
@@ -228,7 +213,7 @@ def load_state() -> dict:
         ):
 
             raise ValueError(
-                "State file is not an object"
+                "State file is not a JSON object"
             )
 
         state.setdefault(
@@ -246,7 +231,7 @@ def load_state() -> dict:
     except Exception as exc:
 
         LOG.warning(
-            "Could not load state: %s",
+            "Could not load state file: %s",
             exc,
         )
 
@@ -301,17 +286,15 @@ def prune_state(
         - timedelta(days=keep_days)
     )
 
-    remove = []
+    remove_keys = []
 
     for key, record in posted.items():
 
         try:
 
-            posted_date = (
-                datetime.fromisoformat(
-                    record["posted_at"]
-                ).date()
-            )
+            posted_date = datetime.fromisoformat(
+                record["posted_at"]
+            ).date()
 
         except Exception:
 
@@ -319,9 +302,11 @@ def prune_state(
 
         if posted_date < cutoff:
 
-            remove.append(key)
+            remove_keys.append(
+                key
+            )
 
-    for key in remove:
+    for key in remove_keys:
 
         posted.pop(
             key,
@@ -330,28 +315,103 @@ def prune_state(
 
 
 # ============================================================
-# MLB API
+# HTTP HELPERS
 # ============================================================
 
 def get_json(
     url: str,
     params: dict | None = None,
+    retries: int = 4,
 ) -> dict:
 
-    response = requests.get(
-        url,
-        params=params,
-        timeout=30,
-        headers={
-            "User-Agent": USER_AGENT,
-            "Accept": "application/json",
-        },
+    last_error = None
+
+    for attempt in range(
+        1,
+        retries + 1,
+    ):
+
+        try:
+
+            response = requests.get(
+                url,
+                params=params,
+                timeout=DEFAULT_TIMEOUT,
+                headers={
+                    "User-Agent": USER_AGENT,
+                    "Accept": "application/json",
+                },
+            )
+
+            # Rate limit
+            if response.status_code == 429:
+
+                retry_after = response.headers.get(
+                    "Retry-After"
+                )
+
+                if retry_after:
+
+                    delay = max(
+                        1,
+                        safe_int(
+                            retry_after,
+                            3,
+                        ),
+                    )
+
+                else:
+
+                    delay = min(
+                        2 ** attempt,
+                        20,
+                    )
+
+                LOG.warning(
+                    "HTTP 429 from %s. "
+                    "Sleeping %s seconds.",
+                    url,
+                    delay,
+                )
+
+                time.sleep(delay)
+
+                continue
+
+            response.raise_for_status()
+
+            return response.json()
+
+        except requests.RequestException as exc:
+
+            last_error = exc
+
+            if attempt >= retries:
+                break
+
+            delay = min(
+                2 ** attempt,
+                10,
+            )
+
+            LOG.warning(
+                "Request failed "
+                "(attempt %d/%d): %s",
+                attempt,
+                retries,
+                exc,
+            )
+
+            time.sleep(delay)
+
+    raise RuntimeError(
+        f"Unable to retrieve {url}: {last_error}"
     )
 
-    response.raise_for_status()
 
-    return response.json()
-
+# ============================================================
+# MLB SCHEDULE
+# ============================================================
 
 def get_today_schedule() -> list[dict]:
 
@@ -380,7 +440,7 @@ def get_today_schedule() -> list[dict]:
         games.extend(
             schedule_date.get(
                 "games",
-                [],
+                []
             )
         )
 
@@ -390,6 +450,60 @@ def get_today_schedule() -> list[dict]:
 # ============================================================
 # PROBABLE STARTERS
 # ============================================================
+
+def get_pitcher_hand(
+    pitcher: dict,
+) -> str:
+
+    """
+    Extract probable pitcher's throwing hand
+    from the hydrated MLB schedule object.
+    """
+
+    pitch_hand = pitcher.get(
+        "pitchHand"
+    )
+
+    if isinstance(
+        pitch_hand,
+        dict,
+    ):
+
+        code = pitch_hand.get(
+            "code"
+        )
+
+        if code:
+
+            code = str(
+                code
+            ).upper()
+
+            if code in {
+                "L",
+                "R",
+            }:
+
+                return code
+
+        description = pitch_hand.get(
+            "description"
+        )
+
+        if description:
+
+            description = str(
+                description
+            ).lower()
+
+            if "left" in description:
+                return "L"
+
+            if "right" in description:
+                return "R"
+
+    return "?"
+
 
 def get_probable_starters(
     games: list[dict],
@@ -409,7 +523,10 @@ def get_probable_starters(
 
         venue = (
             game
-            .get("venue", {})
+            .get(
+                "venue",
+                {},
+            )
             .get(
                 "name",
                 "Unknown Venue",
@@ -433,7 +550,10 @@ def get_probable_starters(
 
         away_team = (
             away
-            .get("team", {})
+            .get(
+                "team",
+                {},
+            )
             .get(
                 "name",
                 "Away",
@@ -442,12 +562,19 @@ def get_probable_starters(
 
         home_team = (
             home
-            .get("team", {})
+            .get(
+                "team",
+                {},
+            )
             .get(
                 "name",
                 "Home",
             )
         )
+
+        # ----------------------------------------------------
+        # Away starter
+        # ----------------------------------------------------
 
         away_pitcher = away.get(
             "probablePitcher"
@@ -465,16 +592,27 @@ def get_probable_starters(
                     "venue": venue,
                     "team": away_team,
                     "opponent": home_team,
+                    "away_team": away_team,
+                    "home_team": home_team,
                     "home": False,
                     "pitcher_id": int(
                         away_pitcher["id"]
                     ),
-                    "pitcher_name": away_pitcher.get(
-                        "fullName",
-                        "Unknown",
+                    "pitcher_name": (
+                        away_pitcher.get(
+                            "fullName",
+                            "Unknown",
+                        )
+                    ),
+                    "throws": get_pitcher_hand(
+                        away_pitcher
                     ),
                 }
             )
+
+        # ----------------------------------------------------
+        # Home starter
+        # ----------------------------------------------------
 
         home_pitcher = home.get(
             "probablePitcher"
@@ -492,13 +630,20 @@ def get_probable_starters(
                     "venue": venue,
                     "team": home_team,
                     "opponent": away_team,
+                    "away_team": away_team,
+                    "home_team": home_team,
                     "home": True,
                     "pitcher_id": int(
                         home_pitcher["id"]
                     ),
-                    "pitcher_name": home_pitcher.get(
-                        "fullName",
-                        "Unknown",
+                    "pitcher_name": (
+                        home_pitcher.get(
+                            "fullName",
+                            "Unknown",
+                        )
+                    ),
+                    "throws": get_pitcher_hand(
+                        home_pitcher
                     ),
                 }
             )
@@ -507,7 +652,7 @@ def get_probable_starters(
 
 
 # ============================================================
-# STATCAST
+# STATCAST DOWNLOAD
 # ============================================================
 
 def download_statcast(
@@ -515,7 +660,18 @@ def download_statcast(
     lookback_days: int,
 ) -> pd.DataFrame:
 
-    end_date = date.today()
+    """
+    Download Statcast for the historical period.
+
+    We intentionally stop at yesterday so today's
+    game cannot accidentally contaminate the pregame
+    historical report.
+    """
+
+    end_date = (
+        date.today()
+        - timedelta(days=1)
+    )
 
     start_date = (
         end_date
@@ -525,7 +681,8 @@ def download_statcast(
     )
 
     LOG.info(
-        "Statcast pitcher %s: %s -> %s",
+        "Downloading Statcast for pitcher %s: "
+        "%s -> %s",
         pitcher_id,
         start_date,
         end_date,
@@ -533,20 +690,20 @@ def download_statcast(
 
     try:
 
-        df = statcast_pitcher(
+        df = statcast(
             start_dt=start_date.isoformat(),
             end_dt=end_date.isoformat(),
-            player_id=pitcher_id,
+            verbose=False,
+            parallel=True,
         )
 
-    except Exception:
+    except TypeError:
 
-        LOG.exception(
-            "Statcast download failed for pitcher %s",
-            pitcher_id,
+        # Compatibility with older pybaseball versions.
+        df = statcast(
+            start_dt=start_date.isoformat(),
+            end_dt=end_date.isoformat(),
         )
-
-        raise
 
     if df is None or df.empty:
 
@@ -555,49 +712,77 @@ def download_statcast(
     df = df.copy()
 
     # --------------------------------------------------------
-    # Normalize numeric columns
+    # Required columns
     # --------------------------------------------------------
 
-    numeric_columns = [
+    required = {
         "pitcher",
+        "game_date",
         "game_pk",
         "at_bat_number",
         "pitch_number",
         "inning",
+        "events",
+    }
+
+    missing = [
+        column
+        for column in required
+        if column not in df.columns
     ]
 
-    for column in numeric_columns:
+    if missing:
 
-        if column in df.columns:
-
-            df[column] = pd.to_numeric(
-                df[column],
-                errors="coerce",
-            )
-
-    # --------------------------------------------------------
-    # Dates
-    # --------------------------------------------------------
-
-    if "game_date" in df.columns:
-
-        df["game_date"] = pd.to_datetime(
-            df["game_date"],
-            errors="coerce",
+        raise RuntimeError(
+            "Statcast response is missing "
+            f"required columns: {missing}"
         )
 
     # --------------------------------------------------------
-    # Final pitcher filter.
-    #
-    # This is mostly defensive because statcast_pitcher()
-    # already queries by pitcher.
+    # Filter pitcher
     # --------------------------------------------------------
 
-    if "pitcher" in df.columns:
+    df["pitcher"] = pd.to_numeric(
+        df["pitcher"],
+        errors="coerce",
+    )
 
-        df = df[
-            df["pitcher"] == pitcher_id
-        ].copy()
+    df = df[
+        df["pitcher"] == pitcher_id
+    ].copy()
+
+    if df.empty:
+
+        return df
+
+    # --------------------------------------------------------
+    # Normalize columns
+    # --------------------------------------------------------
+
+    df["game_date"] = pd.to_datetime(
+        df["game_date"],
+        errors="coerce",
+    )
+
+    df["game_pk"] = pd.to_numeric(
+        df["game_pk"],
+        errors="coerce",
+    )
+
+    df["at_bat_number"] = pd.to_numeric(
+        df["at_bat_number"],
+        errors="coerce",
+    )
+
+    df["pitch_number"] = pd.to_numeric(
+        df["pitch_number"],
+        errors="coerce",
+    )
+
+    df["inning"] = pd.to_numeric(
+        df["inning"],
+        errors="coerce",
+    )
 
     return df
 
@@ -611,18 +796,22 @@ def valid_event(
 ) -> bool:
 
     if event is None:
+
         return False
 
     try:
 
         if pd.isna(event):
+
             return False
 
     except Exception:
 
         pass
 
-    value = str(event).strip().lower()
+    value = str(
+        event
+    ).strip().lower()
 
     return value not in {
         "",
@@ -637,7 +826,10 @@ def event_is(
     *names: str,
 ) -> bool:
 
-    if not valid_event(event):
+    if not valid_event(
+        event
+    ):
+
         return False
 
     value = str(
@@ -645,9 +837,35 @@ def event_is(
     ).strip().lower()
 
     return value in {
-        name.lower()
+        str(name).lower()
         for name in names
     }
+
+
+def event_count(
+    df: pd.DataFrame,
+    *events: str,
+) -> int:
+
+    if df.empty:
+
+        return 0
+
+    if "events" not in df.columns:
+
+        return 0
+
+    return int(
+        df["events"]
+        .apply(
+            lambda value:
+            event_is(
+                value,
+                *events,
+            )
+        )
+        .sum()
+    )
 
 
 # ============================================================
@@ -658,10 +876,20 @@ def plate_appearance_rows(
     df: pd.DataFrame,
 ) -> pd.DataFrame:
 
+    """
+    Convert pitch-level Statcast into one row per
+    completed plate appearance.
+
+    The final pitch of each PA contains the completed
+    event such as single, walk, strikeout, etc.
+    """
+
     if df.empty:
+
         return pd.DataFrame()
 
     if "events" not in df.columns:
+
         return pd.DataFrame()
 
     pa = df[
@@ -671,15 +899,16 @@ def plate_appearance_rows(
     ].copy()
 
     if pa.empty:
+
         return pa
 
-    required = {
+    required_sort_columns = {
         "game_pk",
         "at_bat_number",
         "pitch_number",
     }
 
-    if required.issubset(
+    if required_sort_columns.issubset(
         pa.columns
     ):
 
@@ -705,172 +934,7 @@ def plate_appearance_rows(
 
 
 # ============================================================
-# BATTING EVENT CLASSIFICATION
-# ============================================================
-
-SINGLE_EVENTS = {
-    "single",
-}
-
-DOUBLE_EVENTS = {
-    "double",
-}
-
-TRIPLE_EVENTS = {
-    "triple",
-}
-
-HOME_RUN_EVENTS = {
-    "home_run",
-}
-
-WALK_EVENTS = {
-    "walk",
-    "intent_walk",
-}
-
-HBP_EVENTS = {
-    "hit_by_pitch",
-}
-
-STRIKEOUT_EVENTS = {
-    "strikeout",
-    "strikeout_double_play",
-}
-
-SAC_FLY_EVENTS = {
-    "sac_fly",
-    "sac_fly_double_play",
-}
-
-SAC_BUNT_EVENTS = {
-    "sac_bunt",
-}
-
-AB_EXCLUDED_EVENTS = (
-    WALK_EVENTS
-    | HBP_EVENTS
-    | SAC_FLY_EVENTS
-)
-
-
-# ============================================================
-# wOBA
-# ============================================================
-
-def calculate_woba(
-    pa: pd.DataFrame,
-) -> float | None:
-
-    if pa.empty:
-        return None
-
-    # Baseball Savant provides woba_value at the PA level.
-    #
-    # We DO NOT simply average every non-null row.
-    # Instead we calculate the weighted numerator and
-    # denominator from the event values.
-    #
-    # woba_value already contains the event's wOBA weight.
-    # woba_denom contains the appropriate denominator flag.
-
-    if (
-        "woba_value" not in pa.columns
-    ):
-
-        return None
-
-    values = pd.to_numeric(
-        pa["woba_value"],
-        errors="coerce",
-    )
-
-    if "woba_denom" in pa.columns:
-
-        denom = pd.to_numeric(
-            pa["woba_denom"],
-            errors="coerce",
-        )
-
-        valid = (
-            values.notna()
-            & denom.notna()
-            & (denom > 0)
-        )
-
-        if not valid.any():
-
-            return None
-
-        numerator = values[
-            valid
-        ].sum()
-
-        denominator = denom[
-            valid
-        ].sum()
-
-        if denominator <= 0:
-
-            return None
-
-        return float(
-            numerator
-            / denominator
-        )
-
-    # Fallback for older Statcast data
-    # where woba_denom may not be present.
-    #
-    # Use the mean only when every qualifying PA
-    # has a valid woba_value.
-    valid = values.dropna()
-
-    if valid.empty:
-        return None
-
-    return float(
-        valid.mean()
-    )
-
-
-# ============================================================
-# xwOBA
-# ============================================================
-
-def calculate_xwoba(
-    pa: pd.DataFrame,
-) -> float | None:
-
-    if pa.empty:
-        return None
-
-    column = (
-        "estimated_woba_using_speedangle"
-    )
-
-    if column not in pa.columns:
-
-        return None
-
-    values = pd.to_numeric(
-        pa[column],
-        errors="coerce",
-    )
-
-    values = values.dropna()
-
-    if values.empty:
-
-        return None
-
-    return float(
-        values.mean()
-    )
-
-
-# ============================================================
-# BATTING STATS
+# BATTING EVENT STATISTICS
 # ============================================================
 
 def calculate_batting_stats(
@@ -900,32 +964,29 @@ def calculate_batting_stats(
 
     events = (
         pa["events"]
-        .astype(str)
+        .astype("string")
         .str.lower()
+        .fillna("")
     )
 
+    # --------------------------------------------------------
+    # Hits
+    # --------------------------------------------------------
+
     singles = int(
-        events.isin(
-            SINGLE_EVENTS
-        ).sum()
+        (events == "single").sum()
     )
 
     doubles = int(
-        events.isin(
-            DOUBLE_EVENTS
-        ).sum()
+        (events == "double").sum()
     )
 
     triples = int(
-        events.isin(
-            TRIPLE_EVENTS
-        ).sum()
+        (events == "triple").sum()
     )
 
     home_runs = int(
-        events.isin(
-            HOME_RUN_EVENTS
-        ).sum()
+        (events == "home_run").sum()
     )
 
     hits = (
@@ -935,21 +996,40 @@ def calculate_batting_stats(
         + home_runs
     )
 
+    # --------------------------------------------------------
+    # Walks
+    # --------------------------------------------------------
+
     walks = int(
         events.isin(
-            WALK_EVENTS
+            [
+                "walk",
+                "intent_walk",
+            ]
         ).sum()
     )
 
+    # --------------------------------------------------------
+    # HBP
+    # --------------------------------------------------------
+
     hbp = int(
-        events.isin(
-            HBP_EVENTS
+        (
+            events
+            == "hit_by_pitch"
         ).sum()
     )
+
+    # --------------------------------------------------------
+    # Strikeouts
+    # --------------------------------------------------------
 
     strikeouts = int(
         events.isin(
-            STRIKEOUT_EVENTS
+            [
+                "strikeout",
+                "strikeout_double_play",
+            ]
         ).sum()
     )
 
@@ -958,24 +1038,39 @@ def calculate_batting_stats(
     )
 
     # --------------------------------------------------------
-    # Correct AB calculation.
+    # At bats
     #
-    # Sac flies and sac bunts are not AB.
-    # Walks and HBP are not AB.
+    # For this report we remove BB and HBP.
+    # Sacrifice situations are also excluded from AB.
     # --------------------------------------------------------
 
-    excluded_from_ab = (
-        WALK_EVENTS
-        | HBP_EVENTS
-        | SAC_FLY_EVENTS
-        | SAC_BUNT_EVENTS
+    sacrifice_events = {
+        "sac_fly",
+        "sac_bunt",
+        "catcher_interf",
+    }
+
+    sacrifices = int(
+        events.isin(
+            sacrifice_events
+        ).sum()
     )
 
-    at_bats = int(
-        (~events.isin(
-            excluded_from_ab
-        )).sum()
+    at_bats = (
+        plate_appearances
+        - walks
+        - hbp
+        - sacrifices
     )
+
+    at_bats = max(
+        0,
+        at_bats,
+    )
+
+    # --------------------------------------------------------
+    # Total bases
+    # --------------------------------------------------------
 
     total_bases = (
         singles
@@ -983,6 +1078,10 @@ def calculate_batting_stats(
         + (3 * triples)
         + (4 * home_runs)
     )
+
+    # --------------------------------------------------------
+    # AVG
+    # --------------------------------------------------------
 
     avg = None
 
@@ -993,6 +1092,10 @@ def calculate_batting_stats(
             / at_bats
         )
 
+    # --------------------------------------------------------
+    # SLG
+    # --------------------------------------------------------
+
     slg = None
 
     if at_bats > 0:
@@ -1001,6 +1104,56 @@ def calculate_batting_stats(
             total_bases
             / at_bats
         )
+
+    # --------------------------------------------------------
+    # wOBA
+    #
+    # Baseball Savant provides woba_value at the
+    # plate-appearance level.
+    # --------------------------------------------------------
+
+    woba = None
+
+    if "woba_value" in pa.columns:
+
+        values = pd.to_numeric(
+            pa["woba_value"],
+            errors="coerce",
+        )
+
+        values = values.dropna()
+
+        if not values.empty:
+
+            woba = float(
+                values.mean()
+            )
+
+    # --------------------------------------------------------
+    # xwOBA
+    # --------------------------------------------------------
+
+    xwoba = None
+
+    if (
+        "estimated_woba_using_speedangle"
+        in pa.columns
+    ):
+
+        values = pd.to_numeric(
+            pa[
+                "estimated_woba_using_speedangle"
+            ],
+            errors="coerce",
+        )
+
+        values = values.dropna()
+
+        if not values.empty:
+
+            xwoba = float(
+                values.mean()
+            )
 
     return {
         "pa": plate_appearances,
@@ -1013,13 +1166,13 @@ def calculate_batting_stats(
         "tb": total_bases,
         "avg": avg,
         "slg": slg,
-        "woba": calculate_woba(pa),
-        "xwoba": calculate_xwoba(pa),
+        "woba": woba,
+        "xwoba": xwoba,
     }
 
 
 # ============================================================
-# OUTS
+# OUT EVENTS
 # ============================================================
 
 OUT_EVENTS = {
@@ -1031,7 +1184,6 @@ OUT_EVENTS = {
     "double_play": 2,
     "triple_play": 3,
     "fielders_choice_out": 1,
-    "fielders_choice": 0,
     "sac_fly": 1,
     "sac_bunt": 1,
     "sac_fly_double_play": 2,
@@ -1047,27 +1199,30 @@ def calculate_outs(
     )
 
     if pa.empty:
+
         return 0
 
     events = (
         pa["events"]
-        .astype(str)
+        .astype("string")
         .str.lower()
+        .fillna("")
     )
 
-    return int(
-        sum(
-            OUT_EVENTS.get(
-                event,
-                0,
-            )
-            for event in events
+    outs = 0
+
+    for event in events:
+
+        outs += OUT_EVENTS.get(
+            event,
+            0,
         )
-    )
+
+    return outs
 
 
 # ============================================================
-# PITCHING REPORT
+# FULL PITCHING REPORT
 # ============================================================
 
 def calculate_pitching_report(
@@ -1084,6 +1239,10 @@ def calculate_pitching_report(
 
     ip = outs / 3
 
+    # --------------------------------------------------------
+    # K%
+    # --------------------------------------------------------
+
     k_pct = None
 
     if stats["pa"] > 0:
@@ -1093,6 +1252,10 @@ def calculate_pitching_report(
             / stats["pa"]
         )
 
+    # --------------------------------------------------------
+    # BB%
+    # --------------------------------------------------------
+
     bb_pct = None
 
     if stats["pa"] > 0:
@@ -1101,6 +1264,10 @@ def calculate_pitching_report(
             stats["bb"]
             / stats["pa"]
         )
+
+    # --------------------------------------------------------
+    # HR/9
+    # --------------------------------------------------------
 
     hr9 = None
 
@@ -1126,7 +1293,7 @@ def calculate_pitching_report(
 
 
 # ============================================================
-# START DETECTION
+# IDENTIFY STARTING APPEARANCES
 # ============================================================
 
 def find_starting_appearances(
@@ -1137,21 +1304,15 @@ def find_starting_appearances(
     """
     Identify starting appearances from Statcast.
 
-    Primary rule:
-        Pitcher's first pitch of the game occurred
-        during the first inning.
+    A candidate start is identified when the pitcher:
+    - pitched in the game
+    - threw his first pitch in the 1st inning
 
-    Additional safeguard:
-        Require the first pitch of the pitcher's
-        appearance to have inning == 1.
-
-    This intentionally uses Statcast only.
+    Results are sorted newest first.
     """
 
     if df.empty:
-        return []
 
-    if "pitcher" not in df.columns:
         return []
 
     pitcher_df = df[
@@ -1159,6 +1320,7 @@ def find_starting_appearances(
     ].copy()
 
     if pitcher_df.empty:
+
         return []
 
     appearances = []
@@ -1168,6 +1330,7 @@ def find_starting_appearances(
     ):
 
         if pd.isna(game_pk):
+
             continue
 
         game_df = game_df.sort_values(
@@ -1180,26 +1343,23 @@ def find_starting_appearances(
         )
 
         if game_df.empty:
+
             continue
 
-        first_pitch = game_df.iloc[0]
-
-        first_inning = safe_int(
-            first_pitch.get(
+        first_inning = safe_float(
+            game_df[
                 "inning"
-            ),
+            ].iloc[0],
             99,
         )
 
         if first_inning != 1:
+
             continue
 
-        game_date = first_pitch.get(
+        game_date = game_df[
             "game_date"
-        )
-
-        if pd.isna(game_date):
-            continue
+        ].iloc[0]
 
         appearances.append(
             {
@@ -1212,9 +1372,11 @@ def find_starting_appearances(
         )
 
     appearances.sort(
-        key=lambda item: item[
-            "game_date"
-        ],
+        key=lambda item: (
+            pd.Timestamp(
+                item["game_date"]
+            )
+        ),
         reverse=True,
     )
 
@@ -1222,46 +1384,107 @@ def find_starting_appearances(
 
 
 # ============================================================
-# PITCHER HANDEDNESS
+# HANDEDNESS SPLITS
 # ============================================================
 
-def get_pitcher_hand(
+def get_batter_hand_column(
     df: pd.DataFrame,
-) -> str:
+) -> str | None:
+
+    """
+    pybaseball's Statcast dataframe uses 'stand'
+    for batter handedness.
+
+    Some older/custom Statcast data can use
+    'batter_stands', so we support both.
+    """
+
+    if "stand" in df.columns:
+
+        return "stand"
+
+    if "batter_stands" in df.columns:
+
+        return "batter_stands"
+
+    return None
+
+
+def get_handedness_splits(
+    df: pd.DataFrame,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
+
+    """
+    Return:
+        LHB dataframe
+        RHB dataframe
+    """
 
     if df.empty:
-        return "?"
 
-    for column in (
-        "p_throws",
-    ):
-
-        if column not in df.columns:
-            continue
-
-        values = (
-            df[column]
-            .dropna()
-            .astype(str)
-            .str.upper()
+        return (
+            pd.DataFrame(),
+            pd.DataFrame(),
         )
 
-        if not values.empty:
+    column = get_batter_hand_column(
+        df
+    )
 
-            value = values.iloc[0]
+    if column is None:
 
-            if value == "L":
-                return "L"
+        LOG.warning(
+            "No batter handedness column found. "
+            "Available columns: %s",
+            list(df.columns),
+        )
 
-            if value == "R":
-                return "R"
+        return (
+            pd.DataFrame(),
+            pd.DataFrame(),
+        )
 
-    return "?"
+    handedness = (
+        df[column]
+        .astype("string")
+        .str.strip()
+        .str.upper()
+    )
+
+    lhb_df = df[
+        handedness == "L"
+    ].copy()
+
+    rhb_df = df[
+        handedness == "R"
+    ].copy()
+
+    return (
+        lhb_df,
+        rhb_df,
+    )
 
 
 # ============================================================
-# DISCORD
+# DISCORD FORMATTERS
 # ============================================================
+
+def split_text(
+    report: dict,
+) -> str:
+
+    return (
+        f"PA **{report['pa']}** | "
+        f"H **{report['h']}** | "
+        f"HR **{report['hr']}**\n"
+        f"BB **{report['bb']}** | "
+        f"K **{report['k']}**\n"
+        f"AVG **{fmt_avg(report['avg'])}** | "
+        f"SLG **{fmt_avg(report['slg'])}**\n"
+        f"wOBA **{fmt_avg(report['woba'])}** | "
+        f"xwOBA **{fmt_avg(report['xwoba'])}**"
+    )
+
 
 def make_discord_embed(
     starter: dict,
@@ -1273,6 +1496,10 @@ def make_discord_embed(
         raise ValueError(
             "No starting appearances found"
         )
+
+    # --------------------------------------------------------
+    # Combine last 3 starts
+    # --------------------------------------------------------
 
     recent_df = pd.concat(
         [
@@ -1286,37 +1513,13 @@ def make_discord_embed(
         recent_df
     )
 
-    pitcher_hand = get_pitcher_hand(
-        recent_df
-    )
-
     # --------------------------------------------------------
     # LHB / RHB
     # --------------------------------------------------------
 
-    if "batter_stands" in recent_df.columns:
-
-        batter_stands = (
-            recent_df[
-                "batter_stands"
-            ]
-            .astype("string")
-            .str.upper()
-        )
-
-        lhb_df = recent_df[
-            batter_stands == "L"
-        ].copy()
-
-        rhb_df = recent_df[
-            batter_stands == "R"
-        ].copy()
-
-    else:
-
-        lhb_df = pd.DataFrame()
-
-        rhb_df = pd.DataFrame()
+    lhb_df, rhb_df = get_handedness_splits(
+        recent_df
+    )
 
     lhb = calculate_pitching_report(
         lhb_df
@@ -1344,11 +1547,11 @@ def make_discord_embed(
 
         start_lines.append(
             f"**{start_date.strftime('%b %d')}** — "
-            f"IP **{report['ip_display']}** | "
-            f"H **{report['h']}** | "
-            f"HR **{report['hr']}** | "
-            f"BB **{report['bb']}** | "
-            f"K **{report['k']}**"
+            f"IP {report['ip_display']} | "
+            f"H {report['h']} | "
+            f"HR {report['hr']} | "
+            f"BB {report['bb']} | "
+            f"K {report['k']}"
         )
 
     starts_text = "\n".join(
@@ -1356,45 +1559,44 @@ def make_discord_embed(
     )
 
     # --------------------------------------------------------
-    # Split formatter
+    # Matchup
     # --------------------------------------------------------
 
-    def split_text(
-        report: dict,
-    ) -> str:
+    matchup = (
+        f"**{starter['away_team']}** @ "
+        f"**{starter['home_team']}**"
+    )
 
-        return (
-            f"PA **{report['pa']}** | "
-            f"H **{report['h']}** | "
-            f"HR **{report['hr']}** | "
-            f"BB **{report['bb']}** | "
-            f"K **{report['k']}**\n"
-            f"AVG **{fmt_avg(report['avg'])}** | "
-            f"SLG **{fmt_avg(report['slg'])}**\n"
-            f"wOBA **{fmt_avg(report['woba'])}** | "
-            f"xwOBA **{fmt_avg(report['xwoba'])}**"
-        )
+    throws = starter.get(
+        "throws",
+        "?",
+    )
+
+    throws_display = (
+        throws
+        if throws in {"L", "R"}
+        else "?"
+    )
 
     # --------------------------------------------------------
     # Description
     # --------------------------------------------------------
 
     description = (
-        f"**{starter['team']}** "
-        f"{'vs' if starter['home'] else '@'} "
-        f"**{starter['opponent']}**\n"
+        f"{matchup}\n"
         f"{starter['venue']}\n"
-        f"Throws **{pitcher_hand}**\n\n"
+        f"Throws **{throws_display}**\n\n"
 
-        f"### Last {len(starts)} Starts\n"
+        f"### Last 3 Starts\n"
         f"{starts_text}\n\n"
 
-        f"### Last {len(starts)} Starts — Combined\n"
+        f"### Last 3 Starts — Combined\n"
         f"IP **{overall['ip_display']}** | "
         f"H **{overall['h']}** | "
         f"HR **{overall['hr']}** | "
         f"BB **{overall['bb']}** | "
         f"K **{overall['k']}**\n"
+
         f"K% **{fmt_pct(overall['k_pct'])}** | "
         f"BB% **{fmt_pct(overall['bb_pct'])}** | "
         f"HR/9 **{fmt_one(overall['hr9'])}**\n\n"
@@ -1442,13 +1644,15 @@ def make_discord_payload(
     starts: list[dict],
 ) -> dict:
 
+    embed = make_discord_embed(
+        starter,
+        starts,
+    )
+
     return {
         "username": "MLB Statcast Alert",
         "embeds": [
-            make_discord_embed(
-                starter,
-                starts,
-            )
+            embed
         ],
     }
 
@@ -1483,7 +1687,10 @@ def make_alert_key(
 ) -> str:
 
     game_date = str(
-        starter["game_date"]
+        starter.get(
+            "game_date",
+            ""
+        )
     )[:10]
 
     return (
@@ -1494,7 +1701,45 @@ def make_alert_key(
 
 
 # ============================================================
-# MAIN
+# DEBUG STATCAST COLUMNS
+# ============================================================
+
+def log_statcast_columns(
+    df: pd.DataFrame,
+) -> None:
+
+    """
+    Useful when Baseball Savant changes or pybaseball
+    returns a different schema.
+    """
+
+    important = [
+        "pitcher",
+        "events",
+        "stand",
+        "batter_stands",
+        "woba_value",
+        "estimated_woba_using_speedangle",
+        "game_pk",
+        "at_bat_number",
+        "pitch_number",
+        "inning",
+    ]
+
+    available = [
+        column
+        for column in important
+        if column in df.columns
+    ]
+
+    LOG.info(
+        "Important Statcast columns available: %s",
+        available,
+    )
+
+
+# ============================================================
+# MAIN PROCESS
 # ============================================================
 
 def run(
@@ -1569,7 +1814,7 @@ def run(
     )
 
     # --------------------------------------------------------
-    # Process
+    # Process pitchers
     # --------------------------------------------------------
 
     for starter in starters:
@@ -1586,9 +1831,14 @@ def run(
             starter
         )
 
-        if alert_key in state[
-            "posted"
-        ]:
+        # ----------------------------------------------------
+        # Duplicate protection
+        # ----------------------------------------------------
+
+        if (
+            alert_key
+            in state["posted"]
+        ):
 
             LOG.info(
                 "SKIP duplicate: %s",
@@ -1600,7 +1850,7 @@ def run(
         try:
 
             # ------------------------------------------------
-            # Download pitcher-specific Statcast
+            # Download Statcast
             # ------------------------------------------------
 
             df = download_statcast(
@@ -1617,15 +1867,17 @@ def run(
 
                 continue
 
+            log_statcast_columns(
+                df
+            )
+
             # ------------------------------------------------
-            # Identify starts
+            # Find starts
             # ------------------------------------------------
 
-            starts = (
-                find_starting_appearances(
-                    df,
-                    pitcher_id,
-                )
+            starts = find_starting_appearances(
+                df,
+                pitcher_id,
             )
 
             if not starts:
@@ -1637,9 +1889,8 @@ def run(
 
                 continue
 
-            starts = starts[
-                :DEFAULT_STARTS
-            ]
+            # Last 3
+            starts = starts[:3]
 
             LOG.info(
                 "%s: found %d recent starts",
@@ -1648,7 +1899,7 @@ def run(
             )
 
             # ------------------------------------------------
-            # Build payload
+            # Build Discord payload
             # ------------------------------------------------
 
             payload = make_discord_payload(
@@ -1664,7 +1915,7 @@ def run(
 
                 print()
                 print(
-                    "=" * 90
+                    "=" * 100
                 )
 
                 print(
@@ -1672,7 +1923,7 @@ def run(
                 )
 
                 print(
-                    "=" * 90
+                    "=" * 100
                 )
 
                 print(
@@ -1683,10 +1934,14 @@ def run(
                 )
 
                 print(
-                    "=" * 90
+                    "=" * 100
                 )
 
                 print()
+
+            # ------------------------------------------------
+            # Discord
+            # ------------------------------------------------
 
             else:
 
@@ -1700,29 +1955,28 @@ def run(
                     payload,
                 )
 
+                # Avoid hammering Discord.
                 time.sleep(1)
 
             # ------------------------------------------------
-            # Duplicate state
+            # Save duplicate state
+            #
+            # Important:
+            # We save this after a successful dry run or
+            # successful Discord post.
             # ------------------------------------------------
 
-            state[
-                "posted"
-            ][alert_key] = {
-
+            state["posted"][
+                alert_key
+            ] = {
                 "posted_at": (
                     datetime.now()
                     .isoformat(
                         timespec="seconds"
                     )
                 ),
-
                 "pitcher_id": pitcher_id,
-
-                "pitcher_name": (
-                    pitcher_name
-                ),
-
+                "pitcher_name": pitcher_name,
                 "game_pk": starter[
                     "game_pk"
                 ],
@@ -1749,7 +2003,7 @@ def run(
 
 
 # ============================================================
-# CLI
+# COMMAND LINE
 # ============================================================
 
 def main() -> int:
@@ -1781,7 +2035,7 @@ def main() -> int:
         ),
         help=(
             "Number of days of Statcast "
-            "history to retrieve"
+            "history to download"
         ),
     )
 
@@ -1797,6 +2051,10 @@ def main() -> int:
         lookback_days=lookback_days,
     )
 
+
+# ============================================================
+# ENTRY POINT
+# ============================================================
 
 if __name__ == "__main__":
 
