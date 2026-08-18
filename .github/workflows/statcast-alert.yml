@@ -8,6 +8,9 @@ on:
     # GitHub Actions cron uses UTC.
     - cron: "*/15 * * * *"
 
+permissions:
+  contents: write
+
 jobs:
   statcast-alert:
     runs-on: ubuntu-latest
@@ -15,6 +18,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -31,3 +36,17 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           python statcast_alert.py
+
+      - name: Save duplicate protection state
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/discord_state.json
+
+          if git diff --cached --quiet; then
+            echo "No state changes to commit."
+          else
+            git commit -m "Update Statcast alert state"
+            git push
+          fi
