@@ -18,8 +18,8 @@ Features:
     - Hard Hit% / Barrel%
     - LHB / RHB splits
     - MLB headshot
-    - Team-colored Discord embed
-    - Game date/time in ET
+    - Team-color embed
+    - Game date/time
     - Duplicate protection
     - --dry-run
     - Graceful skip for missing/insufficient Statcast
@@ -86,7 +86,7 @@ HEADSHOT_URL = (
 
 
 # ============================================================
-# TEAM COLORS
+# MLB TEAM COLORS
 # ============================================================
 
 TEAM_COLORS = {
@@ -94,8 +94,8 @@ TEAM_COLORS = {
     "Atlanta Braves": 0xCE1141,
     "Baltimore Orioles": 0xDF4601,
     "Boston Red Sox": 0xBD3039,
-    "Chicago White Sox": 0x27251F,
     "Chicago Cubs": 0x0E3386,
+    "Chicago White Sox": 0x27251F,
     "Cincinnati Reds": 0xC6011F,
     "Cleveland Guardians": 0x00385D,
     "Colorado Rockies": 0x33006F,
@@ -107,8 +107,8 @@ TEAM_COLORS = {
     "Miami Marlins": 0x00A3E0,
     "Milwaukee Brewers": 0x12284B,
     "Minnesota Twins": 0x002B5C,
-    "New York Yankees": 0x003087,
     "New York Mets": 0x002D72,
+    "New York Yankees": 0x003087,
     "Oakland Athletics": 0x003831,
     "Philadelphia Phillies": 0xE81828,
     "Pittsburgh Pirates": 0x27251F,
@@ -230,6 +230,49 @@ def normalize(
         pass
 
     return str(value).strip().lower()
+
+
+# ============================================================
+# GAME DATE / TIME
+# ============================================================
+
+def format_game_datetime(
+    game_date: Any,
+) -> str:
+    """
+    MLB gameDate is normally an ISO datetime such as:
+        2026-08-18T23:05:00Z
+
+    Convert it to Eastern Time for Discord display.
+    """
+
+    if not game_date:
+        return "Game time unavailable"
+
+    try:
+        timestamp = pd.Timestamp(
+            game_date
+        )
+
+        if timestamp.tzinfo is None:
+            timestamp = timestamp.tz_localize(
+                "UTC"
+            )
+
+        timestamp = timestamp.tz_convert(
+            "America/New_York"
+        )
+
+        return timestamp.strftime(
+            "%b %d, %Y · %I:%M %p ET"
+        ).replace(
+            " 0",
+            " ",
+            1,
+        )
+
+    except Exception:
+        return "Game time unavailable"
 
 
 # ============================================================
@@ -1395,14 +1438,14 @@ def split_text(
     report: dict,
 ) -> str:
     if report["pa"] == 0:
-        return "PA 0"
+        return "PA **0**"
 
     return (
-        f"PA {report['pa']} · "
-        f"AVG **{fmt_avg(report['avg'])}** · "
+        f"PA **{report['pa']}**\n"
+        f"AVG **{fmt_avg(report['avg'])}**\n"
         f"SLG **{fmt_avg(report['slg'])}**\n"
         f"K% **{fmt_pct(report['k_pct'])}** · "
-        f"BB% **{fmt_pct(report['bb_pct'])}** · "
+        f"BB% **{fmt_pct(report['bb_pct'])}**\n"
         f"wOBA **{fmt_avg(report['woba'])}** · "
         f"xwOBA **{fmt_avg(report['xwoba'])}**"
     )
@@ -1446,27 +1489,6 @@ def make_discord_embed(
     )
 
     # --------------------------------------------------------
-    # Game date/time
-    # --------------------------------------------------------
-
-    game_datetime = pd.Timestamp(
-        starter["game_date"]
-    )
-
-    if game_datetime.tzinfo is None:
-        game_datetime = game_datetime.tz_localize(
-            "UTC"
-        )
-
-    game_datetime_et = game_datetime.tz_convert(
-        ET
-    )
-
-    game_time_text = game_datetime_et.strftime(
-        "%b %d, %Y · %I:%M %p ET"
-    )
-
-    # --------------------------------------------------------
     # Last 3 starts
     # --------------------------------------------------------
 
@@ -1482,16 +1504,24 @@ def make_discord_embed(
         )
 
         start_lines.append(
-            f"{start_date.strftime('%b %d')}   "
-            f"{report['ip_display']} IP   "
-            f"{report['h']} H   "
-            f"{report['hr']} HR   "
-            f"{report['bb']} BB   "
+            f"**{start_date.strftime('%b %d')}**\n"
+            f"{report['ip_display']} IP · "
+            f"{report['h']} H · "
+            f"{report['hr']} HR · "
+            f"{report['bb']} BB · "
             f"{report['k']} K"
         )
 
-    starts_text = "\n".join(
+    starts_text = "\n\n".join(
         start_lines
+    )
+
+    # --------------------------------------------------------
+    # Game information
+    # --------------------------------------------------------
+
+    game_datetime = format_game_datetime(
+        starter.get("game_date")
     )
 
     # --------------------------------------------------------
@@ -1504,46 +1534,43 @@ def make_discord_embed(
     )
 
     # --------------------------------------------------------
-    # Discord description
+    # Mobile-first Discord layout
     # --------------------------------------------------------
 
     description = (
-        f"**{starter['team']} @ {starter['opponent']}**\n"
-        f"📍 {starter['venue']}\n"
-        f"🗓️ **{game_time_text}**\n"
-        f"⚾ Throws: **{pitcher_hand}**\n\n"
+        f"**{starter['team']} @ "
+        f"{starter['opponent']}**\n"
+        f"{starter['venue']}\n"
+        f"**{game_datetime}**\n"
+        f"Throws: **{pitcher_hand}**\n\n"
 
-        f"**LAST 3 STARTS**\n"
-        f"```text\n"
-        f"{starts_text}\n"
-        f"```\n"
+        f"## LAST 3 STARTS\n"
+        f"{starts_text}\n\n"
 
-        f"**LAST 3 COMBINED**\n"
-        f"{overall['ip_display']} IP · "
-        f"{overall['h']} H · "
-        f"{overall['hr']} HR · "
-        f"{overall['bb']} BB · "
-        f"{overall['k']} K\n"
-        f"K% **{fmt_pct(overall['k_pct'])}** · "
-        f"BB% **{fmt_pct(overall['bb_pct'])}** · "
+        f"## LAST 3 COMBINED\n"
+        f"**{overall['ip_display']} IP** · "
+        f"**{overall['h']} H** · "
+        f"**{overall['hr']} HR** · "
+        f"**{overall['bb']} BB** · "
+        f"**{overall['k']} K**\n\n"
+        f"K% **{fmt_pct(overall['k_pct'])}**\n"
+        f"BB% **{fmt_pct(overall['bb_pct'])}**\n"
         f"HR/9 **{fmt_one(overall['hr9'])}**\n\n"
 
-        f"**CONTACT QUALITY**\n"
-        f"```text\n"
-        f"AVG       {fmt_avg(overall['avg'])}    "
-        f"SLG       {fmt_avg(overall['slg'])}\n"
-        f"wOBA      {fmt_avg(overall['woba'])}    "
-        f"xwOBA     {fmt_avg(overall['xwoba'])}\n"
-        f"xBA       {fmt_avg(overall['xba'])}    "
-        f"xSLG      {fmt_avg(overall['xslg'])}\n"
-        f"Hard Hit  {fmt_pct(overall['hard_hit_pct'])}    "
-        f"Barrel    {fmt_pct(overall['barrel_pct'])}\n"
-        f"```\n"
+        f"## CONTACT QUALITY\n"
+        f"AVG **{fmt_avg(overall['avg'])}**\n"
+        f"SLG **{fmt_avg(overall['slg'])}**\n"
+        f"wOBA **{fmt_avg(overall['woba'])}**\n"
+        f"xwOBA **{fmt_avg(overall['xwoba'])}**\n"
+        f"xBA **{fmt_avg(overall['xba'])}**\n"
+        f"xSLG **{fmt_avg(overall['xslg'])}**\n"
+        f"Hard Hit **{fmt_pct(overall['hard_hit_pct'])}**\n"
+        f"Barrel **{fmt_pct(overall['barrel_pct'])}**\n\n"
 
-        f"**VS LHB**\n"
+        f"## VS LHB\n"
         f"{split_text(lhb)}\n\n"
 
-        f"**VS RHB**\n"
+        f"## VS RHB\n"
         f"{split_text(rhb)}"
     )
 
@@ -1555,12 +1582,12 @@ def make_discord_embed(
         )
 
     return {
-        "color": team_color,
         "title": (
             f"🔥 {starter['pitcher_name']} "
             f"— Statcast Pitching Alert"
         ),
         "description": description,
+        "color": team_color,
         "url": (
             "https://www.mlb.com/player/"
             f"{starter['pitcher_id']}"
