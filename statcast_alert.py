@@ -18,6 +18,8 @@ Features:
     - Hard Hit% / Barrel%
     - LHB / RHB splits
     - MLB headshot
+    - Team-colored Discord embed
+    - Game date/time in ET
     - Duplicate protection
     - --dry-run
     - Graceful skip for missing/insufficient Statcast
@@ -81,6 +83,44 @@ HEADSHOT_URL = (
     "q_auto:good/"
     "v1/people/{player_id}/headshot/67/current"
 )
+
+
+# ============================================================
+# TEAM COLORS
+# ============================================================
+
+TEAM_COLORS = {
+    "Arizona Diamondbacks": 0xA71930,
+    "Atlanta Braves": 0xCE1141,
+    "Baltimore Orioles": 0xDF4601,
+    "Boston Red Sox": 0xBD3039,
+    "Chicago White Sox": 0x27251F,
+    "Chicago Cubs": 0x0E3386,
+    "Cincinnati Reds": 0xC6011F,
+    "Cleveland Guardians": 0x00385D,
+    "Colorado Rockies": 0x33006F,
+    "Detroit Tigers": 0x0C2340,
+    "Houston Astros": 0x002D62,
+    "Kansas City Royals": 0x004687,
+    "Los Angeles Angels": 0xBA0021,
+    "Los Angeles Dodgers": 0x005A9C,
+    "Miami Marlins": 0x00A3E0,
+    "Milwaukee Brewers": 0x12284B,
+    "Minnesota Twins": 0x002B5C,
+    "New York Yankees": 0x003087,
+    "New York Mets": 0x002D72,
+    "Oakland Athletics": 0x003831,
+    "Philadelphia Phillies": 0xE81828,
+    "Pittsburgh Pirates": 0x27251F,
+    "San Diego Padres": 0x2F241D,
+    "San Francisco Giants": 0xFD5A1E,
+    "Seattle Mariners": 0x0C2C56,
+    "St. Louis Cardinals": 0xC41E3A,
+    "Tampa Bay Rays": 0x092C5C,
+    "Texas Rangers": 0x003278,
+    "Toronto Blue Jays": 0x134A8E,
+    "Washington Nationals": 0xAB0003,
+}
 
 
 # ============================================================
@@ -1182,10 +1222,6 @@ def calculate_batting_stats(
 
     # --------------------------------------------------------
     # Hard Hit %
-    #
-    # Hard-hit percentage is:
-    # batted balls with exit velocity >= 95 mph
-    # divided by batted balls with recorded exit velocity.
     # --------------------------------------------------------
 
     hard_hit_pct = None
@@ -1209,10 +1245,6 @@ def calculate_batting_stats(
 
     # --------------------------------------------------------
     # Barrel %
-    #
-    # Statcast's barrel column is used when available.
-    # Barrel rate is calculated over batted balls that have
-    # a valid Statcast barrel value.
     # --------------------------------------------------------
 
     barrel_pct = None
@@ -1366,13 +1398,13 @@ def split_text(
         return "PA 0"
 
     return (
-        f"PA {report['pa']} | "
-        f"AVG {fmt_avg(report['avg'])} | "
-        f"SLG {fmt_avg(report['slg'])}\n"
-        f"K% {fmt_pct(report['k_pct'])} | "
-        f"BB% {fmt_pct(report['bb_pct'])}\n"
-        f"wOBA {fmt_avg(report['woba'])} | "
-        f"xwOBA {fmt_avg(report['xwoba'])}"
+        f"PA {report['pa']} · "
+        f"AVG **{fmt_avg(report['avg'])}** · "
+        f"SLG **{fmt_avg(report['slg'])}**\n"
+        f"K% **{fmt_pct(report['k_pct'])}** · "
+        f"BB% **{fmt_pct(report['bb_pct'])}** · "
+        f"wOBA **{fmt_avg(report['woba'])}** · "
+        f"xwOBA **{fmt_avg(report['xwoba'])}**"
     )
 
 
@@ -1401,19 +1433,6 @@ def make_discord_embed(
         recent_df
     )
 
-    # --------------------------------------------------------
-    # Game date / time
-    # --------------------------------------------------------
-
-    game_datetime = pd.to_datetime(
-        starter["game_date"],
-        utc=True,
-    ).tz_convert(ET)
-
-    game_date_time = game_datetime.strftime(
-        "%b %d, %Y — %-I:%M %p ET"
-    )
-
     lhb_df, rhb_df = get_hand_splits(
         recent_df
     )
@@ -1424,6 +1443,27 @@ def make_discord_embed(
 
     rhb = calculate_pitching_report(
         rhb_df
+    )
+
+    # --------------------------------------------------------
+    # Game date/time
+    # --------------------------------------------------------
+
+    game_datetime = pd.Timestamp(
+        starter["game_date"]
+    )
+
+    if game_datetime.tzinfo is None:
+        game_datetime = game_datetime.tz_localize(
+            "UTC"
+        )
+
+    game_datetime_et = game_datetime.tz_convert(
+        ET
+    )
+
+    game_time_text = game_datetime_et.strftime(
+        "%b %d, %Y · %I:%M %p ET"
     )
 
     # --------------------------------------------------------
@@ -1442,11 +1482,11 @@ def make_discord_embed(
         )
 
         start_lines.append(
-            f"{start_date.strftime('%b %d')} — "
-            f"{report['ip_display']} IP | "
-            f"{report['h']} H | "
-            f"{report['hr']} HR | "
-            f"{report['bb']} BB | "
+            f"{start_date.strftime('%b %d')}   "
+            f"{report['ip_display']} IP   "
+            f"{report['h']} H   "
+            f"{report['hr']} HR   "
+            f"{report['bb']} BB   "
             f"{report['k']} K"
         )
 
@@ -1455,43 +1495,55 @@ def make_discord_embed(
     )
 
     # --------------------------------------------------------
-    # Desired layout
+    # Team color
+    # --------------------------------------------------------
+
+    team_color = TEAM_COLORS.get(
+        starter["team"],
+        0x5865F2,
+    )
+
+    # --------------------------------------------------------
+    # Discord description
     # --------------------------------------------------------
 
     description = (
-        f"**{starter['team']} @ "
-        f"{starter['opponent']}**\n"
-        f"{starter['venue']}\n"
-        f"Game: **{game_date_time}**\n"
-        f"Throws: **{pitcher_hand}**\n\n"
+        f"**{starter['team']} @ {starter['opponent']}**\n"
+        f"📍 {starter['venue']}\n"
+        f"🗓️ **{game_time_text}**\n"
+        f"⚾ Throws: **{pitcher_hand}**\n\n"
 
-        f"### LAST 3 STARTS\n"
-        f"{starts_text}\n\n"
+        f"**LAST 3 STARTS**\n"
+        f"```text\n"
+        f"{starts_text}\n"
+        f"```\n"
 
-        f"### COMBINED\n"
-        f"{overall['ip_display']} IP | "
-        f"{overall['h']} H | "
-        f"{overall['hr']} HR | "
-        f"{overall['bb']} BB | "
+        f"**LAST 3 COMBINED**\n"
+        f"{overall['ip_display']} IP · "
+        f"{overall['h']} H · "
+        f"{overall['hr']} HR · "
+        f"{overall['bb']} BB · "
         f"{overall['k']} K\n"
-        f"K% **{fmt_pct(overall['k_pct'])}** | "
-        f"BB% **{fmt_pct(overall['bb_pct'])}** | "
+        f"K% **{fmt_pct(overall['k_pct'])}** · "
+        f"BB% **{fmt_pct(overall['bb_pct'])}** · "
         f"HR/9 **{fmt_one(overall['hr9'])}**\n\n"
 
-        f"### CONTACT QUALITY\n"
-        f"AVG       **{fmt_avg(overall['avg'])}**\n"
-        f"SLG       **{fmt_avg(overall['slg'])}**\n"
-        f"wOBA      **{fmt_avg(overall['woba'])}**\n"
-        f"xwOBA     **{fmt_avg(overall['xwoba'])}**\n"
-        f"xBA       **{fmt_avg(overall['xba'])}**\n"
-        f"xSLG      **{fmt_avg(overall['xslg'])}**\n"
-        f"Hard Hit  **{fmt_pct(overall['hard_hit_pct'])}**\n"
-        f"Barrel    **{fmt_pct(overall['barrel_pct'])}**\n\n"
+        f"**CONTACT QUALITY**\n"
+        f"```text\n"
+        f"AVG       {fmt_avg(overall['avg'])}    "
+        f"SLG       {fmt_avg(overall['slg'])}\n"
+        f"wOBA      {fmt_avg(overall['woba'])}    "
+        f"xwOBA     {fmt_avg(overall['xwoba'])}\n"
+        f"xBA       {fmt_avg(overall['xba'])}    "
+        f"xSLG      {fmt_avg(overall['xslg'])}\n"
+        f"Hard Hit  {fmt_pct(overall['hard_hit_pct'])}    "
+        f"Barrel    {fmt_pct(overall['barrel_pct'])}\n"
+        f"```\n"
 
-        f"### VS LHB\n"
+        f"**VS LHB**\n"
         f"{split_text(lhb)}\n\n"
 
-        f"### VS RHB\n"
+        f"**VS RHB**\n"
         f"{split_text(rhb)}"
     )
 
@@ -1503,6 +1555,7 @@ def make_discord_embed(
         )
 
     return {
+        "color": team_color,
         "title": (
             f"🔥 {starter['pitcher_name']} "
             f"— Statcast Pitching Alert"
