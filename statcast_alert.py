@@ -1401,6 +1401,19 @@ def make_discord_embed(
         recent_df
     )
 
+    # --------------------------------------------------------
+    # Game date / time
+    # --------------------------------------------------------
+
+    game_datetime = pd.to_datetime(
+        starter["game_date"],
+        utc=True,
+    ).tz_convert(ET)
+
+    game_date_time = game_datetime.strftime(
+        "%b %d, %Y — %-I:%M %p ET"
+    )
+
     lhb_df, rhb_df = get_hand_splits(
         recent_df
     )
@@ -1449,6 +1462,7 @@ def make_discord_embed(
         f"**{starter['team']} @ "
         f"{starter['opponent']}**\n"
         f"{starter['venue']}\n"
+        f"Game: **{game_date_time}**\n"
         f"Throws: **{pitcher_hand}**\n\n"
 
         f"### LAST 3 STARTS\n"
