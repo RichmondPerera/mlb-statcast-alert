@@ -367,6 +367,14 @@
       "pitcher_id": 592332,
       "pitcher_name": "Kevin Gausman",
       "posted_at": "2026-08-18T00:02:18-04:00"
+    },
+    "2026-08-19:824639:663542": {
+      "game_date": "2026-08-19",
+      "game_pk": 824639,
+      "lookback_days": 120,
+      "pitcher_id": 663542,
+      "pitcher_name": "Bryan Hudson",
+      "posted_at": "2026-08-18T15:59:48-04:00"
     }
   },
   "version": 5
