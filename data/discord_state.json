@@ -488,6 +488,14 @@
       "pitcher_name": "Clay Holmes",
       "posted_at": "2026-08-19T00:01:22-04:00"
     },
+    "2026-08-19:824640:656794": {
+      "game_date": "2026-08-19",
+      "game_pk": 824640,
+      "lookback_days": 240,
+      "pitcher_id": 656794,
+      "pitcher_name": "Sean Newcomb",
+      "posted_at": "2026-08-19T02:04:42-04:00"
+    },
     "2026-08-19:824722:694297": {
       "game_date": "2026-08-19",
       "game_pk": 824722,
