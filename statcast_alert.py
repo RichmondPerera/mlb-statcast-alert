@@ -18,7 +18,6 @@ Features:
     - Hard Hit% / Barrel%
     - LHB / RHB splits
     - MLB headshot
-    - Team-color embed
     - Game date/time
     - Duplicate protection
     - --dry-run
@@ -83,44 +82,6 @@ HEADSHOT_URL = (
     "q_auto:good/"
     "v1/people/{player_id}/headshot/67/current"
 )
-
-
-# ============================================================
-# MLB TEAM COLORS
-# ============================================================
-
-TEAM_COLORS = {
-    "Arizona Diamondbacks": 0xA71930,
-    "Atlanta Braves": 0xCE1141,
-    "Baltimore Orioles": 0xDF4601,
-    "Boston Red Sox": 0xBD3039,
-    "Chicago Cubs": 0x0E3386,
-    "Chicago White Sox": 0x27251F,
-    "Cincinnati Reds": 0xC6011F,
-    "Cleveland Guardians": 0x00385D,
-    "Colorado Rockies": 0x33006F,
-    "Detroit Tigers": 0x0C2340,
-    "Houston Astros": 0x002D62,
-    "Kansas City Royals": 0x004687,
-    "Los Angeles Angels": 0xBA0021,
-    "Los Angeles Dodgers": 0x005A9C,
-    "Miami Marlins": 0x00A3E0,
-    "Milwaukee Brewers": 0x12284B,
-    "Minnesota Twins": 0x002B5C,
-    "New York Mets": 0x002D72,
-    "New York Yankees": 0x003087,
-    "Oakland Athletics": 0x003831,
-    "Philadelphia Phillies": 0xE81828,
-    "Pittsburgh Pirates": 0x27251F,
-    "San Diego Padres": 0x2F241D,
-    "San Francisco Giants": 0xFD5A1E,
-    "Seattle Mariners": 0x0C2C56,
-    "St. Louis Cardinals": 0xC41E3A,
-    "Tampa Bay Rays": 0x092C5C,
-    "Texas Rangers": 0x003278,
-    "Toronto Blue Jays": 0x134A8E,
-    "Washington Nationals": 0xAB0003,
-}
 
 
 # ============================================================
@@ -230,49 +191,6 @@ def normalize(
         pass
 
     return str(value).strip().lower()
-
-
-# ============================================================
-# GAME DATE / TIME
-# ============================================================
-
-def format_game_datetime(
-    game_date: Any,
-) -> str:
-    """
-    MLB gameDate is normally an ISO datetime such as:
-        2026-08-18T23:05:00Z
-
-    Convert it to Eastern Time for Discord display.
-    """
-
-    if not game_date:
-        return "Game time unavailable"
-
-    try:
-        timestamp = pd.Timestamp(
-            game_date
-        )
-
-        if timestamp.tzinfo is None:
-            timestamp = timestamp.tz_localize(
-                "UTC"
-            )
-
-        timestamp = timestamp.tz_convert(
-            "America/New_York"
-        )
-
-        return timestamp.strftime(
-            "%b %d, %Y · %I:%M %p ET"
-        ).replace(
-            " 0",
-            " ",
-            1,
-        )
-
-    except Exception:
-        return "Game time unavailable"
 
 
 # ============================================================
@@ -620,13 +538,6 @@ def get_probable_starters(
 
 @contextlib.contextmanager
 def suppress_pybaseball_output():
-    """
-    pybaseball can print lines such as:
-        Gathering Player Data
-
-    Suppress stdout/stderr only while statcast_pitcher()
-    is running. Normal application logging remains visible.
-    """
     stdout = io.StringIO()
     stderr = io.StringIO()
 
@@ -695,10 +606,6 @@ def download_statcast(
 
     df = df.copy()
 
-    # --------------------------------------------------------
-    # Normalize pitcher
-    # --------------------------------------------------------
-
     if "pitcher" in df.columns:
         df["pitcher"] = pd.to_numeric(
             df["pitcher"],
@@ -712,19 +619,11 @@ def download_statcast(
     if df.empty:
         return df
 
-    # --------------------------------------------------------
-    # Dates
-    # --------------------------------------------------------
-
     if "game_date" in df.columns:
         df["game_date"] = pd.to_datetime(
             df["game_date"],
             errors="coerce",
         )
-
-    # --------------------------------------------------------
-    # Numeric columns
-    # --------------------------------------------------------
 
     numeric_columns = [
         "game_pk",
@@ -749,10 +648,6 @@ def download_statcast(
                 df[column],
                 errors="coerce",
             )
-
-    # --------------------------------------------------------
-    # Sort
-    # --------------------------------------------------------
 
     sort_columns = [
         column
@@ -827,7 +722,6 @@ def plate_appearance_rows(
     if pa.empty:
         return pa
 
-    # Each completed PA is represented by its final pitch.
     if {
         "game_pk",
         "at_bat_number",
@@ -869,15 +763,6 @@ def find_starting_appearances(
     df: pd.DataFrame,
     pitcher_id: int,
 ) -> list[dict]:
-    """
-    Identify actual starts from Statcast.
-
-    Rule:
-        The pitcher's first recorded pitch of the game
-        occurred in inning 1.
-
-    This excludes normal relief appearances.
-    """
 
     if df.empty:
         return []
@@ -967,10 +852,6 @@ def find_starting_appearances(
 def find_recent_starts(
     pitcher_id: int,
 ) -> tuple[list[dict], int]:
-    """
-    Search progressively farther back until 3 starts
-    are found or the 365-day maximum is reached.
-    """
 
     for lookback_days in LOOKBACK_STEPS:
         LOG.info(
@@ -1023,8 +904,6 @@ OUT_EVENTS = {
     "sac_fly": 1,
     "sac_bunt": 1,
     "sac_fly_double_play": 2,
-
-    # These are not pitcher outs.
     "field_error": 0,
     "fielders_choice": 0,
     "walk": 0,
@@ -1225,10 +1104,6 @@ def calculate_batting_stats(
     if at_bats > 0:
         slg = total_bases / at_bats
 
-    # --------------------------------------------------------
-    # Column mean helper
-    # --------------------------------------------------------
-
     def mean_column(
         column: str,
     ) -> float | None:
@@ -1263,10 +1138,6 @@ def calculate_batting_stats(
         "estimated_slg_using_speedangle"
     )
 
-    # --------------------------------------------------------
-    # Hard Hit %
-    # --------------------------------------------------------
-
     hard_hit_pct = None
 
     if "launch_speed" in pa.columns:
@@ -1285,10 +1156,6 @@ def calculate_batting_stats(
                     launch_speed >= 95.0
                 ).mean()
             )
-
-    # --------------------------------------------------------
-    # Barrel %
-    # --------------------------------------------------------
 
     barrel_pct = None
 
@@ -1438,16 +1305,16 @@ def split_text(
     report: dict,
 ) -> str:
     if report["pa"] == 0:
-        return "PA **0**"
+        return "Plate Appearances: 0"
 
     return (
-        f"PA **{report['pa']}**\n"
-        f"AVG **{fmt_avg(report['avg'])}**\n"
-        f"SLG **{fmt_avg(report['slg'])}**\n"
-        f"K% **{fmt_pct(report['k_pct'])}** · "
-        f"BB% **{fmt_pct(report['bb_pct'])}**\n"
-        f"wOBA **{fmt_avg(report['woba'])}** · "
-        f"xwOBA **{fmt_avg(report['xwoba'])}**"
+        f"Plate Appearances: {report['pa']}\n"
+        f"Batting Average: {fmt_avg(report['avg'])}\n"
+        f"Slugging Percentage: {fmt_avg(report['slg'])}\n"
+        f"Strikeout Rate: {fmt_pct(report['k_pct'])}\n"
+        f"Walk Rate: {fmt_pct(report['bb_pct'])}\n"
+        f"wOBA: {fmt_avg(report['woba'])}\n"
+        f"Expected wOBA: {fmt_avg(report['xwoba'])}"
     )
 
 
@@ -1517,64 +1384,93 @@ def make_discord_embed(
     )
 
     # --------------------------------------------------------
-    # Game information
+    # Game date/time
     # --------------------------------------------------------
 
-    game_datetime = format_game_datetime(
-        starter.get("game_date")
+    game_date_raw = starter.get(
+        "game_date"
     )
 
-    # --------------------------------------------------------
-    # Team color
-    # --------------------------------------------------------
+    game_datetime = None
 
-    team_color = TEAM_COLORS.get(
-        starter["team"],
-        0x5865F2,
-    )
+    if game_date_raw:
+        try:
+            game_datetime = pd.Timestamp(
+                game_date_raw
+            )
+
+            if game_datetime.tzinfo is None:
+                game_datetime = game_datetime.tz_localize(
+                    "UTC"
+                )
+
+            game_datetime = game_datetime.tz_convert(
+                "America/New_York"
+            )
+
+        except Exception:
+            game_datetime = None
+
+    if game_datetime is not None:
+        game_time_text = game_datetime.strftime(
+            "%b %d, %Y · %-I:%M %p ET"
+        )
+    else:
+        game_time_text = "Game time unavailable"
 
     # --------------------------------------------------------
-    # Mobile-first Discord layout
+    # Discord description
     # --------------------------------------------------------
 
     description = (
         f"**{starter['team']} @ "
         f"{starter['opponent']}**\n"
         f"{starter['venue']}\n"
-        f"**{game_datetime}**\n"
+        f"**{game_time_text}**\n"
         f"Throws: **{pitcher_hand}**\n\n"
 
-        f"## LAST 3 STARTS\n"
+        f"### 📋 LAST 3 STARTS\n"
         f"{starts_text}\n\n"
 
-        f"## LAST 3 COMBINED\n"
-        f"**{overall['ip_display']} IP** · "
-        f"**{overall['h']} H** · "
-        f"**{overall['hr']} HR** · "
-        f"**{overall['bb']} BB** · "
-        f"**{overall['k']} K**\n\n"
-        f"K% **{fmt_pct(overall['k_pct'])}**\n"
-        f"BB% **{fmt_pct(overall['bb_pct'])}**\n"
-        f"HR/9 **{fmt_one(overall['hr9'])}**\n\n"
+        f"### 📊 LAST 3 COMBINED\n"
+        f"**{overall['ip_display']} IP · "
+        f"{overall['h']} H · "
+        f"{overall['hr']} HR · "
+        f"{overall['bb']} BB · "
+        f"{overall['k']} K**\n\n"
 
-        f"## CONTACT QUALITY\n"
-        f"AVG **{fmt_avg(overall['avg'])}**\n"
-        f"SLG **{fmt_avg(overall['slg'])}**\n"
-        f"wOBA **{fmt_avg(overall['woba'])}**\n"
-        f"xwOBA **{fmt_avg(overall['xwoba'])}**\n"
-        f"xBA **{fmt_avg(overall['xba'])}**\n"
-        f"xSLG **{fmt_avg(overall['xslg'])}**\n"
-        f"Hard Hit **{fmt_pct(overall['hard_hit_pct'])}**\n"
-        f"Barrel **{fmt_pct(overall['barrel_pct'])}**\n\n"
+        f"**Strikeout Rate:** "
+        f"{fmt_pct(overall['k_pct'])}\n"
+        f"**Walk Rate:** "
+        f"{fmt_pct(overall['bb_pct'])}\n"
+        f"**Home Runs per 9 Innings:** "
+        f"{fmt_one(overall['hr9'])}\n\n"
 
-        f"## VS LHB\n"
+        f"### 🎯 CONTACT QUALITY\n"
+        f"**Batting Average Against:** "
+        f"{fmt_avg(overall['avg'])}\n"
+        f"**Slugging Percentage:** "
+        f"{fmt_avg(overall['slg'])}\n"
+        f"**wOBA:** "
+        f"{fmt_avg(overall['woba'])}\n"
+        f"**Expected wOBA:** "
+        f"{fmt_avg(overall['xwoba'])}\n"
+        f"**Expected Batting Average:** "
+        f"{fmt_avg(overall['xba'])}\n"
+        f"**Expected Slugging Percentage:** "
+        f"{fmt_avg(overall['xslg'])}\n"
+        f"**Hard-Hit Rate:** "
+        f"{fmt_pct(overall['hard_hit_pct'])}\n"
+        f"**Barrel Rate:** "
+        f"{fmt_pct(overall['barrel_pct'])}\n\n"
+
+        f"### 👈 VS LEFT-HANDED BATTERS\n"
         f"{split_text(lhb)}\n\n"
 
-        f"## VS RHB\n"
+        f"### 👉 VS RIGHT-HANDED BATTERS\n"
         f"{split_text(rhb)}"
     )
 
-    # Discord embed descriptions max at 4096.
     if len(description) > 4000:
         description = (
             description[:3990]
@@ -1587,7 +1483,6 @@ def make_discord_embed(
             f"— Statcast Pitching Alert"
         ),
         "description": description,
-        "color": team_color,
         "url": (
             "https://www.mlb.com/player/"
             f"{starter['pitcher_id']}"
@@ -1976,13 +1871,6 @@ def run(
             time.sleep(1)
 
         except Exception as exc:
-            # ------------------------------------------------
-            # IMPORTANT:
-            # Insufficient/missing Statcast is a SKIP.
-            # It is not a fatal run error and is not recorded
-            # as posted.
-            # ------------------------------------------------
-
             skipped += 1
 
             LOG.warning(
