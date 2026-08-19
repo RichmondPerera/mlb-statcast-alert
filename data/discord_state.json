@@ -408,6 +408,14 @@
       "pitcher_name": "Logan Gilbert",
       "posted_at": "2026-08-19T00:02:06-04:00"
     },
+    "2026-08-19:824076:607625": {
+      "game_date": "2026-08-19",
+      "game_pk": 824076,
+      "lookback_days": 60,
+      "pitcher_id": 607625,
+      "pitcher_name": "Seth Lugo",
+      "posted_at": "2026-08-19T14:55:45-04:00"
+    },
     "2026-08-19:824154:664299": {
       "game_date": "2026-08-19",
       "game_pk": 824154,
