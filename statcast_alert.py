@@ -639,7 +639,6 @@ def download_statcast(
         "estimated_slg_using_speedangle",
         "estimated_woba_using_speedangle",
         "woba_value",
-        "barrel",
     ]
 
     for column in numeric_columns:
@@ -1138,6 +1137,10 @@ def calculate_batting_stats(
         "estimated_slg_using_speedangle"
     )
 
+    # --------------------------------------------------------
+    # Hard-Hit %
+    # --------------------------------------------------------
+
     hard_hit_pct = None
 
     if "launch_speed" in pa.columns:
@@ -1157,19 +1160,86 @@ def calculate_batting_stats(
                 ).mean()
             )
 
+    # --------------------------------------------------------
+    # Barrel %
+    #
+    # Calculate barrels directly from exit velocity and
+    # launch angle instead of relying on pybaseball's
+    # "barrel" column, which can be missing/empty.
+    #
+    # Statcast barrel baseline:
+    #   98 mph -> 26° to 30°
+    #
+    # Each additional mph above 98 expands the acceptable
+    # launch-angle range by 1° on each side.
+    #
+    # Example:
+    #   98 mph -> 26° to 30°
+    #   99 mph -> 25° to 31°
+    #   100 mph -> 24° to 32°
+    # --------------------------------------------------------
+
     barrel_pct = None
 
-    if "barrel" in pa.columns:
-        barrel_values = pd.to_numeric(
-            pa["barrel"],
-            errors="coerce",
-        ).dropna()
+    if {
+        "launch_speed",
+        "launch_angle",
+    }.issubset(pa.columns):
 
-        if not barrel_values.empty:
+        launch_speed = pd.to_numeric(
+            pa["launch_speed"],
+            errors="coerce",
+        )
+
+        launch_angle = pd.to_numeric(
+            pa["launch_angle"],
+            errors="coerce",
+        )
+
+        batted_ball_mask = (
+            launch_speed.notna()
+            & launch_angle.notna()
+        )
+
+        ev = launch_speed[
+            batted_ball_mask
+        ]
+
+        la = launch_angle[
+            batted_ball_mask
+        ]
+
+        if not ev.empty:
+
+            # Barrels require at least 98 mph exit velocity.
+            eligible = ev >= 98.0
+
+            # How many mph above the 98 mph barrel baseline.
+            mph_above_98 = (
+                ev - 98.0
+            ).clip(
+                lower=0
+            )
+
+            # Expand the launch-angle window as EV increases.
+            lower_angle = (
+                26.0
+                - mph_above_98
+            )
+
+            upper_angle = (
+                30.0
+                + mph_above_98
+            )
+
+            barrel_mask = (
+                eligible
+                & (la >= lower_angle)
+                & (la <= upper_angle)
+            )
+
             barrel_pct = float(
-                (
-                    barrel_values > 0
-                ).mean()
+                barrel_mask.mean()
             )
 
     return {
