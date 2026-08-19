@@ -328,6 +328,86 @@
       "pitcher_name": "Cal Quantrill",
       "posted_at": "2026-08-18T00:02:17-04:00"
     },
+    "2026-08-19:822937:453286": {
+      "game_date": "2026-08-19",
+      "game_pk": 822937,
+      "lookback_days": 60,
+      "pitcher_id": 453286,
+      "pitcher_name": "Max Scherzer",
+      "posted_at": "2026-08-19T00:01:59-04:00"
+    },
+    "2026-08-19:822937:656876": {
+      "game_date": "2026-08-19",
+      "game_pk": 822937,
+      "lookback_days": 60,
+      "pitcher_id": 656876,
+      "pitcher_name": "Drew Rasmussen",
+      "posted_at": "2026-08-19T00:02:02-04:00"
+    },
+    "2026-08-19:823342:694973": {
+      "game_date": "2026-08-19",
+      "game_pk": 823342,
+      "lookback_days": 60,
+      "pitcher_id": 694973,
+      "pitcher_name": "Paul Skenes",
+      "posted_at": "2026-08-19T00:01:05-04:00"
+    },
+    "2026-08-19:823424:605400": {
+      "game_date": "2026-08-19",
+      "game_pk": 823424,
+      "lookback_days": 60,
+      "pitcher_id": 605400,
+      "pitcher_name": "Aaron Nola",
+      "posted_at": "2026-08-19T00:01:35-04:00"
+    },
+    "2026-08-19:823424:645261": {
+      "game_date": "2026-08-19",
+      "game_pk": 823424,
+      "lookback_days": 60,
+      "pitcher_id": 645261,
+      "pitcher_name": "Sandy Alcantara",
+      "posted_at": "2026-08-19T00:01:32-04:00"
+    },
+    "2026-08-19:823587:476594": {
+      "game_date": "2026-08-19",
+      "game_pk": 823587,
+      "lookback_days": 60,
+      "pitcher_id": 476594,
+      "pitcher_name": "Robert Stock",
+      "posted_at": "2026-08-19T00:01:11-04:00"
+    },
+    "2026-08-19:823587:650633": {
+      "game_date": "2026-08-19",
+      "game_pk": 823587,
+      "lookback_days": 60,
+      "pitcher_id": 650633,
+      "pitcher_name": "Michael King",
+      "posted_at": "2026-08-19T00:01:08-04:00"
+    },
+    "2026-08-19:823664:671737": {
+      "game_date": "2026-08-19",
+      "game_pk": 823664,
+      "lookback_days": 60,
+      "pitcher_id": 671737,
+      "pitcher_name": "Taj Bradley",
+      "posted_at": "2026-08-19T00:01:18-04:00"
+    },
+    "2026-08-19:823748:669160": {
+      "game_date": "2026-08-19",
+      "game_pk": 823748,
+      "lookback_days": 60,
+      "pitcher_id": 669160,
+      "pitcher_name": "Dustin May",
+      "posted_at": "2026-08-19T00:02:09-04:00"
+    },
+    "2026-08-19:823748:669302": {
+      "game_date": "2026-08-19",
+      "game_pk": 823748,
+      "lookback_days": 60,
+      "pitcher_id": 669302,
+      "pitcher_name": "Logan Gilbert",
+      "posted_at": "2026-08-19T00:02:06-04:00"
+    },
     "2026-08-19:824154:664299": {
       "game_date": "2026-08-19",
       "game_pk": 824154,
@@ -360,6 +440,30 @@
       "pitcher_name": "Ryan Feltner",
       "posted_at": "2026-08-18T00:02:27-04:00"
     },
+    "2026-08-19:824394:800048": {
+      "game_date": "2026-08-19",
+      "game_pk": 824394,
+      "lookback_days": 60,
+      "pitcher_id": 800048,
+      "pitcher_name": "Parker Messick",
+      "posted_at": "2026-08-19T00:01:50-04:00"
+    },
+    "2026-08-19:824476:669461": {
+      "game_date": "2026-08-19",
+      "game_pk": 824476,
+      "lookback_days": 60,
+      "pitcher_id": 669461,
+      "pitcher_name": "Matthew Liberatore",
+      "posted_at": "2026-08-19T00:01:53-04:00"
+    },
+    "2026-08-19:824476:695505": {
+      "game_date": "2026-08-19",
+      "game_pk": 824476,
+      "lookback_days": 60,
+      "pitcher_id": 695505,
+      "pitcher_name": "Chase Burns",
+      "posted_at": "2026-08-19T00:01:57-04:00"
+    },
     "2026-08-19:824639:592332": {
       "game_date": "2026-08-19",
       "game_pk": 824639,
@@ -375,6 +479,86 @@
       "pitcher_id": 663542,
       "pitcher_name": "Bryan Hudson",
       "posted_at": "2026-08-18T15:59:48-04:00"
+    },
+    "2026-08-19:824640:605280": {
+      "game_date": "2026-08-19",
+      "game_pk": 824640,
+      "lookback_days": 120,
+      "pitcher_id": 605280,
+      "pitcher_name": "Clay Holmes",
+      "posted_at": "2026-08-19T00:01:22-04:00"
+    },
+    "2026-08-19:824722:694297": {
+      "game_date": "2026-08-19",
+      "game_pk": 824722,
+      "lookback_days": 60,
+      "pitcher_id": 694297,
+      "pitcher_name": "Brandon Pfaadt",
+      "posted_at": "2026-08-19T00:01:25-04:00"
+    },
+    "2026-08-19:824722:801139": {
+      "game_date": "2026-08-19",
+      "game_pk": 824722,
+      "lookback_days": 60,
+      "pitcher_id": 801139,
+      "pitcher_name": "Payton Tolle",
+      "posted_at": "2026-08-19T00:01:29-04:00"
+    },
+    "2026-08-19:824801:605135": {
+      "game_date": "2026-08-19",
+      "game_pk": 824801,
+      "lookback_days": 120,
+      "pitcher_id": 605135,
+      "pitcher_name": "Chris Bassitt",
+      "posted_at": "2026-08-19T00:01:42-04:00"
+    },
+    "2026-08-19:824801:701542": {
+      "game_date": "2026-08-19",
+      "game_pk": 824801,
+      "lookback_days": 60,
+      "pitcher_id": 701542,
+      "pitcher_name": "Will Warren",
+      "posted_at": "2026-08-19T00:01:38-04:00"
+    },
+    "2026-08-20:822860:676917": {
+      "game_date": "2026-08-20",
+      "game_pk": 822860,
+      "lookback_days": 60,
+      "pitcher_id": 676917,
+      "pitcher_name": "Cade Cavalli",
+      "posted_at": "2026-08-19T00:02:12-04:00"
+    },
+    "2026-08-20:822860:677958": {
+      "game_date": "2026-08-20",
+      "game_pk": 822860,
+      "lookback_days": 60,
+      "pitcher_id": 677958,
+      "pitcher_name": "Kumar Rocker",
+      "posted_at": "2026-08-19T00:02:15-04:00"
+    },
+    "2026-08-20:824155:700712": {
+      "game_date": "2026-08-20",
+      "game_pk": 824155,
+      "lookback_days": 60,
+      "pitcher_id": 700712,
+      "pitcher_name": "Walbert Ure\u00f1a",
+      "posted_at": "2026-08-19T00:02:19-04:00"
+    },
+    "2026-08-20:824318:607536": {
+      "game_date": "2026-08-20",
+      "game_pk": 824318,
+      "lookback_days": 60,
+      "pitcher_id": 607536,
+      "pitcher_name": "Kyle Freeland",
+      "posted_at": "2026-08-19T00:02:30-04:00"
+    },
+    "2026-08-20:824318:808963": {
+      "game_date": "2026-08-20",
+      "game_pk": 824318,
+      "lookback_days": 60,
+      "pitcher_id": 808963,
+      "pitcher_name": "Roki Sasaki",
+      "posted_at": "2026-08-19T00:02:27-04:00"
     }
   },
   "version": 5
