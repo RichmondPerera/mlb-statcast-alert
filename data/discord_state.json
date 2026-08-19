@@ -408,6 +408,14 @@
       "pitcher_name": "Logan Gilbert",
       "posted_at": "2026-08-19T00:02:06-04:00"
     },
+    "2026-08-19:824076:605488": {
+      "game_date": "2026-08-19",
+      "game_pk": 824076,
+      "lookback_days": 60,
+      "pitcher_id": 605488,
+      "pitcher_name": "Jeffrey Springs",
+      "posted_at": "2026-08-19T16:01:33-04:00"
+    },
     "2026-08-19:824076:607625": {
       "game_date": "2026-08-19",
       "game_pk": 824076,
