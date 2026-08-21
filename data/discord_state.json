@@ -720,6 +720,14 @@
       "pitcher_name": "Jes\u00fas Luzardo",
       "posted_at": "2026-08-21T00:04:57-04:00"
     },
+    "2026-08-21:823420:690928": {
+      "game_date": "2026-08-21",
+      "game_pk": 823420,
+      "lookback_days": 60,
+      "pitcher_id": 690928,
+      "pitcher_name": "Hunter Dobbins",
+      "posted_at": "2026-08-21T15:32:39-04:00"
+    },
     "2026-08-21:823510:689254": {
       "game_date": "2026-08-21",
       "game_pk": 823510,
