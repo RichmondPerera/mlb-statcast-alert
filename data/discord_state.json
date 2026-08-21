@@ -872,6 +872,14 @@
       "pitcher_name": "Emerson Hancock",
       "posted_at": "2026-08-21T00:06:13-04:00"
     },
+    "2026-08-22:823262:681190": {
+      "game_date": "2026-08-22",
+      "game_pk": 823262,
+      "lookback_days": 60,
+      "pitcher_id": 681190,
+      "pitcher_name": "Randy V\u00e1squez",
+      "posted_at": "2026-08-21T17:41:52-04:00"
+    },
     "2026-08-22:823262:687570": {
       "game_date": "2026-08-22",
       "game_pk": 823262,
