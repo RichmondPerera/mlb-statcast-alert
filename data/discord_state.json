@@ -720,6 +720,14 @@
       "pitcher_name": "Jes\u00fas Luzardo",
       "posted_at": "2026-08-21T00:04:57-04:00"
     },
+    "2026-08-21:823510:689254": {
+      "game_date": "2026-08-21",
+      "game_pk": 823510,
+      "lookback_days": 240,
+      "pitcher_id": 689254,
+      "pitcher_name": "Mason Fluharty",
+      "posted_at": "2026-08-21T09:27:40-04:00"
+    },
     "2026-08-21:823510:693645": {
       "game_date": "2026-08-21",
       "game_pk": 823510,
