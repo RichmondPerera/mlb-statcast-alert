@@ -1472,6 +1472,14 @@
       "pitcher_name": "Framber Valdez",
       "posted_at": "2026-08-24T00:07:58-04:00"
     },
+    "2026-08-24:824557:664353": {
+      "game_date": "2026-08-24",
+      "game_pk": 824557,
+      "lookback_days": 240,
+      "pitcher_id": 664353,
+      "pitcher_name": "Jos\u00e9 Urquidy",
+      "posted_at": "2026-08-24T11:04:07-04:00"
+    },
     "2026-08-24:824557:677958": {
       "game_date": "2026-08-24",
       "game_pk": 824557,
