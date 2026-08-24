@@ -1504,6 +1504,14 @@
       "pitcher_name": "Logan Gilbert",
       "posted_at": "2026-08-24T00:08:37-04:00"
     },
+    "2026-08-25:823183:687931": {
+      "game_date": "2026-08-25",
+      "game_pk": 823183,
+      "lookback_days": 60,
+      "pitcher_id": 687931,
+      "pitcher_name": "Carson Whisenhunt",
+      "posted_at": "2026-08-24T13:35:42-04:00"
+    },
     "2026-08-25:823183:695505": {
       "game_date": "2026-08-25",
       "game_pk": 823183,
