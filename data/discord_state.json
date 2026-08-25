@@ -1632,6 +1632,14 @@
       "pitcher_name": "Parker Messick",
       "posted_at": "2026-08-24T00:08:16-04:00"
     },
+    "2026-08-25:824233:668984": {
+      "game_date": "2026-08-25",
+      "game_pk": 824233,
+      "lookback_days": 60,
+      "pitcher_id": 668984,
+      "pitcher_name": "Casey Legumina",
+      "posted_at": "2026-08-25T16:48:17-04:00"
+    },
     "2026-08-25:824233:693855": {
       "game_date": "2026-08-25",
       "game_pk": 824233,
