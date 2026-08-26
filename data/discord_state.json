@@ -1800,6 +1800,14 @@
       "pitcher_name": "George Kirby",
       "posted_at": "2026-08-25T00:03:10-04:00"
     },
+    "2026-08-26:823180:657277": {
+      "game_date": "2026-08-26",
+      "game_pk": 823180,
+      "lookback_days": 60,
+      "pitcher_id": 657277,
+      "pitcher_name": "Logan Webb",
+      "posted_at": "2026-08-26T13:43:45-04:00"
+    },
     "2026-08-26:823180:666157": {
       "game_date": "2026-08-26",
       "game_pk": 823180,
