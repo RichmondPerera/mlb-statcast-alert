@@ -1872,6 +1872,14 @@
       "pitcher_name": "Peter Lambert",
       "posted_at": "2026-08-26T00:50:36-04:00"
     },
+    "2026-08-26:823506:695684": {
+      "game_date": "2026-08-26",
+      "game_pk": 823506,
+      "lookback_days": 120,
+      "pitcher_id": 695684,
+      "pitcher_name": "Elmer Rodr\u00edguez",
+      "posted_at": "2026-08-26T12:03:04-04:00"
+    },
     "2026-08-26:823584:476594": {
       "game_date": "2026-08-26",
       "game_pk": 823584,
