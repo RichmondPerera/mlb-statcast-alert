@@ -2040,6 +2040,94 @@
       "pitcher_name": "Brandon Pfaadt",
       "posted_at": "2026-08-25T00:02:52-04:00"
     },
+    "2026-08-27:822694:663623": {
+      "game_date": "2026-08-27",
+      "game_pk": 822694,
+      "lookback_days": 60,
+      "pitcher_id": 663623,
+      "pitcher_name": "Jake Irvin",
+      "posted_at": "2026-08-27T10:35:20-04:00"
+    },
+    "2026-08-27:822694:687312": {
+      "game_date": "2026-08-27",
+      "game_pk": 822694,
+      "lookback_days": 60,
+      "pitcher_id": 687312,
+      "pitcher_name": "Gabriel Hughes",
+      "posted_at": "2026-08-27T10:35:16-04:00"
+    },
+    "2026-08-27:822771:681293": {
+      "game_date": "2026-08-27",
+      "game_pk": 822771,
+      "lookback_days": 60,
+      "pitcher_id": 681293,
+      "pitcher_name": "Spencer Arrighetti",
+      "posted_at": "2026-08-27T10:35:28-04:00"
+    },
+    "2026-08-27:822771:702070": {
+      "game_date": "2026-08-27",
+      "game_pk": 822771,
+      "lookback_days": 60,
+      "pitcher_id": 702070,
+      "pitcher_name": "Noah Cameron",
+      "posted_at": "2026-08-27T10:35:27-04:00"
+    },
+    "2026-08-27:823014:669432": {
+      "game_date": "2026-08-27",
+      "game_pk": 823014,
+      "lookback_days": 60,
+      "pitcher_id": 669432,
+      "pitcher_name": "Trevor Rogers",
+      "posted_at": "2026-08-27T10:35:22-04:00"
+    },
+    "2026-08-27:823503:543037": {
+      "game_date": "2026-08-27",
+      "game_pk": 823503,
+      "lookback_days": 60,
+      "pitcher_id": 543037,
+      "pitcher_name": "Gerrit Cole",
+      "posted_at": "2026-08-27T10:35:25-04:00"
+    },
+    "2026-08-27:823503:669713": {
+      "game_date": "2026-08-27",
+      "game_pk": 823503,
+      "lookback_days": 60,
+      "pitcher_id": 669713,
+      "pitcher_name": "Hayden Wesneski",
+      "posted_at": "2026-08-27T10:35:23-04:00"
+    },
+    "2026-08-27:823581:640455": {
+      "game_date": "2026-08-27",
+      "game_pk": 823581,
+      "lookback_days": 60,
+      "pitcher_id": 640455,
+      "pitcher_name": "Sean Manaea",
+      "posted_at": "2026-08-27T10:35:35-04:00"
+    },
+    "2026-08-27:823581:694819": {
+      "game_date": "2026-08-27",
+      "game_pk": 823581,
+      "lookback_days": 60,
+      "pitcher_id": 694819,
+      "pitcher_name": "Jacob Misiorowski",
+      "posted_at": "2026-08-27T10:35:31-04:00"
+    },
+    "2026-08-27:824879:519242": {
+      "game_date": "2026-08-27",
+      "game_pk": 824879,
+      "lookback_days": 60,
+      "pitcher_id": 519242,
+      "pitcher_name": "Chris Sale",
+      "posted_at": "2026-08-27T10:35:42-04:00"
+    },
+    "2026-08-27:824879:808967": {
+      "game_date": "2026-08-27",
+      "game_pk": 824879,
+      "lookback_days": 60,
+      "pitcher_id": 808967,
+      "pitcher_name": "Yoshinobu Yamamoto",
+      "posted_at": "2026-08-27T10:35:38-04:00"
+    },
     "2026-08-27:824963:669372": {
       "game_date": "2026-08-27",
       "game_pk": 824963,
@@ -2055,6 +2143,22 @@
       "pitcher_id": 687570,
       "pitcher_name": "Connor Prielipp",
       "posted_at": "2026-08-26T00:51:14-04:00"
+    },
+    "2026-08-28:823179:694738": {
+      "game_date": "2026-08-28",
+      "game_pk": 823179,
+      "lookback_days": 60,
+      "pitcher_id": 694738,
+      "pitcher_name": "Landen Roupp",
+      "posted_at": "2026-08-27T10:35:49-04:00"
+    },
+    "2026-08-28:823179:703615": {
+      "game_date": "2026-08-28",
+      "game_pk": 823179,
+      "lookback_days": 120,
+      "pitcher_id": 703615,
+      "pitcher_name": "Jose Cabrera",
+      "posted_at": "2026-08-27T10:35:45-04:00"
     }
   },
   "version": 5
