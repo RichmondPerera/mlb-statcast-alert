@@ -2168,6 +2168,14 @@
       "pitcher_name": "Dylan Cease",
       "posted_at": "2026-08-28T07:27:25-04:00"
     },
+    "2026-08-28:822769:676106": {
+      "game_date": "2026-08-28",
+      "game_pk": 822769,
+      "lookback_days": 60,
+      "pitcher_id": 676106,
+      "pitcher_name": "Emerson Hancock",
+      "posted_at": "2026-08-28T17:29:54-04:00"
+    },
     "2026-08-28:822935:663554": {
       "game_date": "2026-08-28",
       "game_pk": 822935,
@@ -2375,6 +2383,14 @@
       "pitcher_id": 691725,
       "pitcher_name": "Andrew Painter",
       "posted_at": "2026-08-28T07:27:40-04:00"
+    },
+    "2026-08-29:824960:682052": {
+      "game_date": "2026-08-29",
+      "game_pk": 824960,
+      "lookback_days": 60,
+      "pitcher_id": 682052,
+      "pitcher_name": "Jacob Lopez",
+      "posted_at": "2026-08-28T17:29:55-04:00"
     },
     "2026-08-29:824960:687064": {
       "game_date": "2026-08-29",
