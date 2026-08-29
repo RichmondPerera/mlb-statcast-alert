@@ -2584,6 +2584,14 @@
       "pitcher_name": "Ryan Feltner",
       "posted_at": "2026-08-29T06:23:15-04:00"
     },
+    "2026-08-29:824874:688642": {
+      "game_date": "2026-08-29",
+      "game_pk": 824874,
+      "lookback_days": 240,
+      "pitcher_id": 688642,
+      "pitcher_name": "Zach Agnos",
+      "posted_at": "2026-08-29T14:38:27-04:00"
+    },
     "2026-08-29:824960:682052": {
       "game_date": "2026-08-29",
       "game_pk": 824960,
