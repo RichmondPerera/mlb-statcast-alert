@@ -2320,6 +2320,70 @@
       "pitcher_name": "Grant Holmes",
       "posted_at": "2026-08-28T07:27:28-04:00"
     },
+    "2026-08-29:822690:645261": {
+      "game_date": "2026-08-29",
+      "game_pk": 822690,
+      "lookback_days": 60,
+      "pitcher_id": 645261,
+      "pitcher_name": "Sandy Alcantara",
+      "posted_at": "2026-08-29T06:22:49-04:00"
+    },
+    "2026-08-29:822690:676917": {
+      "game_date": "2026-08-29",
+      "game_pk": 822690,
+      "lookback_days": 60,
+      "pitcher_id": 676917,
+      "pitcher_name": "Cade Cavalli",
+      "posted_at": "2026-08-29T06:22:53-04:00"
+    },
+    "2026-08-29:822770:667755": {
+      "game_date": "2026-08-29",
+      "game_pk": 822770,
+      "lookback_days": 60,
+      "pitcher_id": 667755,
+      "pitcher_name": "Jos\u00e9 Soriano",
+      "posted_at": "2026-08-29T06:22:39-04:00"
+    },
+    "2026-08-29:822770:807739": {
+      "game_date": "2026-08-29",
+      "game_pk": 822770,
+      "lookback_days": 240,
+      "pitcher_id": 807739,
+      "pitcher_name": "Kade Anderson",
+      "posted_at": "2026-08-29T06:22:35-04:00"
+    },
+    "2026-08-29:822936:607259": {
+      "game_date": "2026-08-29",
+      "game_pk": 822936,
+      "lookback_days": 60,
+      "pitcher_id": 607259,
+      "pitcher_name": "Nick Martinez",
+      "posted_at": "2026-08-29T06:23:13-04:00"
+    },
+    "2026-08-29:822936:621111": {
+      "game_date": "2026-08-29",
+      "game_pk": 822936,
+      "lookback_days": 60,
+      "pitcher_id": 621111,
+      "pitcher_name": "Walker Buehler",
+      "posted_at": "2026-08-29T06:23:10-04:00"
+    },
+    "2026-08-29:823011:669199": {
+      "game_date": "2026-08-29",
+      "game_pk": 823011,
+      "lookback_days": 120,
+      "pitcher_id": 669199,
+      "pitcher_name": "Lake Bachar",
+      "posted_at": "2026-08-29T06:22:19-04:00"
+    },
+    "2026-08-29:823011:681517": {
+      "game_date": "2026-08-29",
+      "game_pk": 823011,
+      "lookback_days": 60,
+      "pitcher_id": 681517,
+      "pitcher_name": "Kyle Leahy",
+      "posted_at": "2026-08-29T06:22:22-04:00"
+    },
     "2026-08-29:823013:683003": {
       "game_date": "2026-08-29",
       "game_pk": 823013,
@@ -2335,6 +2399,14 @@
       "pitcher_id": 687273,
       "pitcher_name": "Quinn Mathews",
       "posted_at": "2026-08-28T07:27:39-04:00"
+    },
+    "2026-08-29:823177:518876": {
+      "game_date": "2026-08-29",
+      "game_pk": 823177,
+      "lookback_days": 60,
+      "pitcher_id": 518876,
+      "pitcher_name": "Merrill Kelly",
+      "posted_at": "2026-08-29T06:22:42-04:00"
     },
     "2026-08-29:823178:684442": {
       "game_date": "2026-08-29",
@@ -2352,6 +2424,54 @@
       "pitcher_name": "Blade Tidwell",
       "posted_at": "2026-08-28T07:27:46-04:00"
     },
+    "2026-08-29:823501:608331": {
+      "game_date": "2026-08-29",
+      "game_pk": 823501,
+      "lookback_days": 60,
+      "pitcher_id": 608331,
+      "pitcher_name": "Max Fried",
+      "posted_at": "2026-08-29T06:22:03-04:00"
+    },
+    "2026-08-29:823539:607074": {
+      "game_date": "2026-08-29",
+      "game_pk": 823539,
+      "lookback_days": 120,
+      "pitcher_id": 607074,
+      "pitcher_name": "Carlos Rod\u00f3n",
+      "posted_at": "2026-08-29T06:22:00-04:00"
+    },
+    "2026-08-29:823539:687562": {
+      "game_date": "2026-08-29",
+      "game_pk": 823539,
+      "lookback_days": 60,
+      "pitcher_id": 687562,
+      "pitcher_name": "Jake Bennett",
+      "posted_at": "2026-08-29T06:21:55-04:00"
+    },
+    "2026-08-29:823582:690997": {
+      "game_date": "2026-08-29",
+      "game_pk": 823582,
+      "lookback_days": 60,
+      "pitcher_id": 690997,
+      "pitcher_name": "Nolan McLean",
+      "posted_at": "2026-08-29T06:23:09-04:00"
+    },
+    "2026-08-29:823665:607200": {
+      "game_date": "2026-08-29",
+      "game_pk": 823665,
+      "lookback_days": 60,
+      "pitcher_id": 607200,
+      "pitcher_name": "Erick Fedde",
+      "posted_at": "2026-08-29T06:22:12-04:00"
+    },
+    "2026-08-29:823665:641927": {
+      "game_date": "2026-08-29",
+      "game_pk": 823665,
+      "lookback_days": 60,
+      "pitcher_id": 641927,
+      "pitcher_name": "Bailey Ober",
+      "posted_at": "2026-08-29T06:22:13-04:00"
+    },
     "2026-08-29:823666:622491": {
       "game_date": "2026-08-29",
       "game_pk": 823666,
@@ -2367,6 +2487,22 @@
       "pitcher_id": 665152,
       "pitcher_name": "Dean Kremer",
       "posted_at": "2026-08-28T07:27:36-04:00"
+    },
+    "2026-08-29:823741:615698": {
+      "game_date": "2026-08-29",
+      "game_pk": 823741,
+      "lookback_days": 60,
+      "pitcher_id": 615698,
+      "pitcher_name": "Cal Quantrill",
+      "posted_at": "2026-08-29T06:23:22-04:00"
+    },
+    "2026-08-29:823741:675660": {
+      "game_date": "2026-08-29",
+      "game_pk": 823741,
+      "lookback_days": 60,
+      "pitcher_id": 675660,
+      "pitcher_name": "Shane Drohan",
+      "posted_at": "2026-08-29T06:23:25-04:00"
     },
     "2026-08-29:823985:672282": {
       "game_date": "2026-08-29",
@@ -2384,6 +2520,70 @@
       "pitcher_name": "Andrew Painter",
       "posted_at": "2026-08-28T07:27:40-04:00"
     },
+    "2026-08-29:824230:605483": {
+      "game_date": "2026-08-29",
+      "game_pk": 824230,
+      "lookback_days": 60,
+      "pitcher_id": 605483,
+      "pitcher_name": "Blake Snell",
+      "posted_at": "2026-08-29T06:22:05-04:00"
+    },
+    "2026-08-29:824230:672456": {
+      "game_date": "2026-08-29",
+      "game_pk": 824230,
+      "lookback_days": 60,
+      "pitcher_id": 672456,
+      "pitcher_name": "Keider Montero",
+      "posted_at": "2026-08-29T06:22:08-04:00"
+    },
+    "2026-08-29:824392:656492": {
+      "game_date": "2026-08-29",
+      "game_pk": 824392,
+      "lookback_days": 60,
+      "pitcher_id": 656492,
+      "pitcher_name": "Foster Griffin",
+      "posted_at": "2026-08-29T06:23:00-04:00"
+    },
+    "2026-08-29:824392:663738": {
+      "game_date": "2026-08-29",
+      "game_pk": 824392,
+      "lookback_days": 60,
+      "pitcher_id": 663738,
+      "pitcher_name": "Daniel Lynch IV",
+      "posted_at": "2026-08-29T06:22:56-04:00"
+    },
+    "2026-08-29:824637:592332": {
+      "game_date": "2026-08-29",
+      "game_pk": 824637,
+      "lookback_days": 60,
+      "pitcher_id": 592332,
+      "pitcher_name": "Kevin Gausman",
+      "posted_at": "2026-08-29T06:22:31-04:00"
+    },
+    "2026-08-29:824637:671096": {
+      "game_date": "2026-08-29",
+      "game_pk": 824637,
+      "lookback_days": 60,
+      "pitcher_id": 671096,
+      "pitcher_name": "Andrew Abbott",
+      "posted_at": "2026-08-29T06:22:26-04:00"
+    },
+    "2026-08-29:824874:527048": {
+      "game_date": "2026-08-29",
+      "game_pk": 824874,
+      "lookback_days": 60,
+      "pitcher_id": 527048,
+      "pitcher_name": "Mart\u00edn P\u00e9rez",
+      "posted_at": "2026-08-29T06:23:18-04:00"
+    },
+    "2026-08-29:824874:663372": {
+      "game_date": "2026-08-29",
+      "game_pk": 824874,
+      "lookback_days": 60,
+      "pitcher_id": 663372,
+      "pitcher_name": "Ryan Feltner",
+      "posted_at": "2026-08-29T06:23:15-04:00"
+    },
     "2026-08-29:824960:682052": {
       "game_date": "2026-08-29",
       "game_pk": 824960,
@@ -2399,6 +2599,46 @@
       "pitcher_id": 687064,
       "pitcher_name": "Brandon Young",
       "posted_at": "2026-08-28T07:27:43-04:00"
+    },
+    "2026-08-30:823176:683352": {
+      "game_date": "2026-08-30",
+      "game_pk": 823176,
+      "lookback_days": 60,
+      "pitcher_id": 683352,
+      "pitcher_name": "Mitch Bratt",
+      "posted_at": "2026-08-29T06:22:45-04:00"
+    },
+    "2026-08-30:823986:650911": {
+      "game_date": "2026-08-30",
+      "game_pk": 823986,
+      "lookback_days": 60,
+      "pitcher_id": 650911,
+      "pitcher_name": "Cristopher S\u00e1nchez",
+      "posted_at": "2026-08-29T06:23:37-04:00"
+    },
+    "2026-08-30:823986:696270": {
+      "game_date": "2026-08-30",
+      "game_pk": 823986,
+      "lookback_days": 60,
+      "pitcher_id": 696270,
+      "pitcher_name": "Ryan Johnson",
+      "posted_at": "2026-08-29T06:23:38-04:00"
+    },
+    "2026-08-30:824961:669358": {
+      "game_date": "2026-08-30",
+      "game_pk": 824961,
+      "lookback_days": 60,
+      "pitcher_id": 669358,
+      "pitcher_name": "Shane Baz",
+      "posted_at": "2026-08-29T06:23:29-04:00"
+    },
+    "2026-08-30:824961:678022": {
+      "game_date": "2026-08-30",
+      "game_pk": 824961,
+      "lookback_days": 60,
+      "pitcher_id": 678022,
+      "pitcher_name": "Jack Perkins",
+      "posted_at": "2026-08-29T06:23:33-04:00"
     }
   },
   "version": 5
