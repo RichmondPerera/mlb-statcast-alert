@@ -3008,6 +3008,14 @@
       "pitcher_name": "Tanner Gordon",
       "posted_at": "2026-08-31T03:29:17-04:00"
     },
+    "2026-09-01:824314:700249": {
+      "game_date": "2026-09-01",
+      "game_pk": 824314,
+      "lookback_days": 120,
+      "pitcher_id": 700249,
+      "pitcher_name": "Cade Povich",
+      "posted_at": "2026-08-31T17:01:16-04:00"
+    },
     "2026-09-01:825040:605400": {
       "game_date": "2026-09-01",
       "game_pk": 825040,
@@ -3015,6 +3023,14 @@
       "pitcher_id": 605400,
       "pitcher_name": "Aaron Nola",
       "posted_at": "2026-08-31T03:29:28-04:00"
+    },
+    "2026-09-01:825040:694297": {
+      "game_date": "2026-09-01",
+      "game_pk": 825040,
+      "lookback_days": 60,
+      "pitcher_id": 694297,
+      "pitcher_name": "Brandon Pfaadt",
+      "posted_at": "2026-08-31T17:01:17-04:00"
     }
   },
   "version": 5
