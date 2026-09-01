@@ -2952,6 +2952,14 @@
       "pitcher_name": "Spencer Arrighetti",
       "posted_at": "2026-09-01T01:43:04-04:00"
     },
+    "2026-09-01:824391:693686": {
+      "game_date": "2026-09-01",
+      "game_pk": 824391,
+      "lookback_days": 60,
+      "pitcher_id": 693686,
+      "pitcher_name": "Spencer Miles",
+      "posted_at": "2026-09-01T11:12:59-04:00"
+    },
     "2026-09-01:824472:666157": {
       "game_date": "2026-09-01",
       "game_pk": 824472,
