@@ -2872,6 +2872,14 @@
       "pitcher_name": "Landen Roupp",
       "posted_at": "2026-09-02T02:19:27-04:00"
     },
+    "2026-09-02:823339:696149": {
+      "game_date": "2026-09-02",
+      "game_pk": 823339,
+      "lookback_days": 60,
+      "pitcher_id": 696149,
+      "pitcher_name": "Bubba Chandler",
+      "posted_at": "2026-09-02T11:19:56-04:00"
+    },
     "2026-09-02:823660:623454": {
       "game_date": "2026-09-02",
       "game_pk": 823660,
