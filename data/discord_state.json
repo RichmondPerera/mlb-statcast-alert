@@ -3111,6 +3111,14 @@
       "pitcher_id": 674841,
       "pitcher_name": "Andrew Alvarez",
       "posted_at": "2026-09-06T00:23:04-04:00"
+    },
+    "2026-09-07:823903:680736": {
+      "game_date": "2026-09-07",
+      "game_pk": 823903,
+      "lookback_days": 60,
+      "pitcher_id": 680736,
+      "pitcher_name": "Justin Wrobleski",
+      "posted_at": "2026-09-06T04:48:27-04:00"
     }
   },
   "version": 5
