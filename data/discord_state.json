@@ -3040,6 +3040,14 @@
       "pitcher_name": "Michael McGreevy",
       "posted_at": "2026-09-07T00:54:23-04:00"
     },
+    "2026-09-08:823902:686218": {
+      "game_date": "2026-09-08",
+      "game_pk": 823902,
+      "lookback_days": 60,
+      "pitcher_id": 686218,
+      "pitcher_name": "Emmet Sheehan",
+      "posted_at": "2026-09-07T18:41:58-04:00"
+    },
     "2026-09-08:823902:695505": {
       "game_date": "2026-09-08",
       "game_pk": 823902,
