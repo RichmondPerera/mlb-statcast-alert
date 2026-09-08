@@ -3064,6 +3064,14 @@
       "pitcher_name": "Jacob Lopez",
       "posted_at": "2026-09-07T00:54:28-04:00"
     },
+    "2026-09-09:823092:615698": {
+      "game_date": "2026-09-09",
+      "game_pk": 823092,
+      "lookback_days": 60,
+      "pitcher_id": 615698,
+      "pitcher_name": "Cal Quantrill",
+      "posted_at": "2026-09-08T17:11:58-04:00"
+    },
     "2026-09-09:823174:687273": {
       "game_date": "2026-09-09",
       "game_pk": 823174,
