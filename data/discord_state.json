@@ -3080,6 +3080,14 @@
       "pitcher_name": "Shane Baz",
       "posted_at": "2026-09-09T02:34:27-04:00"
     },
+    "2026-09-09:824871:625643": {
+      "game_date": "2026-09-09",
+      "game_pk": 824871,
+      "lookback_days": 60,
+      "pitcher_id": 625643,
+      "pitcher_name": "Reynaldo L\u00f3pez",
+      "posted_at": "2026-09-09T15:24:07-04:00"
+    },
     "2026-09-09:824871:643377": {
       "game_date": "2026-09-09",
       "game_pk": 824871,
