@@ -3063,6 +3063,14 @@
       "pitcher_id": 669923,
       "pitcher_name": "George Kirby",
       "posted_at": "2026-09-11T01:05:12-04:00"
+    },
+    "2026-09-12:825036:669022": {
+      "game_date": "2026-09-12",
+      "game_pk": 825036,
+      "lookback_days": 60,
+      "pitcher_id": 669022,
+      "pitcher_name": "MacKenzie Gore",
+      "posted_at": "2026-09-11T13:46:13-04:00"
     }
   },
   "version": 5
