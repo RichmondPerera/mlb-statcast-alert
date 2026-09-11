@@ -3064,6 +3064,14 @@
       "pitcher_name": "George Kirby",
       "posted_at": "2026-09-11T01:05:12-04:00"
     },
+    "2026-09-12:825036:518876": {
+      "game_date": "2026-09-12",
+      "game_pk": 825036,
+      "lookback_days": 60,
+      "pitcher_id": 518876,
+      "pitcher_name": "Merrill Kelly",
+      "posted_at": "2026-09-11T16:47:46-04:00"
+    },
     "2026-09-12:825036:669022": {
       "game_date": "2026-09-12",
       "game_pk": 825036,
