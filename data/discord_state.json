@@ -2944,6 +2944,14 @@
       "pitcher_name": "Andrew Abbott",
       "posted_at": "2026-09-11T01:05:03-04:00"
     },
+    "2026-09-11:823817:605483": {
+      "game_date": "2026-09-11",
+      "game_pk": 823817,
+      "lookback_days": 60,
+      "pitcher_id": 605483,
+      "pitcher_name": "Blake Snell",
+      "posted_at": "2026-09-11T19:08:21-04:00"
+    },
     "2026-09-11:823817:687473": {
       "game_date": "2026-09-11",
       "game_pk": 823817,
