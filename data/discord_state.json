@@ -2992,6 +2992,14 @@
       "pitcher_name": "Tyler Mahle",
       "posted_at": "2026-09-12T01:51:35-04:00"
     },
+    "2026-09-12:824870:641835": {
+      "game_date": "2026-09-12",
+      "game_pk": 824870,
+      "lookback_days": 120,
+      "pitcher_id": 641835,
+      "pitcher_name": "Tim Mayza",
+      "posted_at": "2026-09-12T17:20:29-04:00"
+    },
     "2026-09-12:824954:605488": {
       "game_date": "2026-09-12",
       "game_pk": 824954,
