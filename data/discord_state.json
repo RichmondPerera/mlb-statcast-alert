@@ -2920,6 +2920,14 @@
       "pitcher_name": "Brady Singer",
       "posted_at": "2026-09-12T01:51:32-04:00"
     },
+    "2026-09-12:823737:675660": {
+      "game_date": "2026-09-12",
+      "game_pk": 823737,
+      "lookback_days": 60,
+      "pitcher_id": 675660,
+      "pitcher_name": "Shane Drohan",
+      "posted_at": "2026-09-12T14:47:53-04:00"
+    },
     "2026-09-12:823819:607192": {
       "game_date": "2026-09-12",
       "game_pk": 823819,
