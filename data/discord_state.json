@@ -2944,6 +2944,14 @@
       "pitcher_name": "Davis Martin",
       "posted_at": "2026-09-15T02:02:46-04:00"
     },
+    "2026-09-15:824384:669684": {
+      "game_date": "2026-09-15",
+      "game_pk": 824384,
+      "lookback_days": 240,
+      "pitcher_id": 669684,
+      "pitcher_name": "Chris Murphy",
+      "posted_at": "2026-09-15T15:51:23-04:00"
+    },
     "2026-09-15:824466:695076": {
       "game_date": "2026-09-15",
       "game_pk": 824466,
