@@ -2984,6 +2984,14 @@
       "pitcher_name": "Sandy Alcantara",
       "posted_at": "2026-09-14T02:57:25-04:00"
     },
+    "2026-09-16:822849:594798": {
+      "game_date": "2026-09-16",
+      "game_pk": 822849,
+      "lookback_days": 60,
+      "pitcher_id": 594798,
+      "pitcher_name": "Jacob deGrom",
+      "posted_at": "2026-09-15T12:42:12-04:00"
+    },
     "2026-09-16:822849:663776": {
       "game_date": "2026-09-16",
       "game_pk": 822849,
