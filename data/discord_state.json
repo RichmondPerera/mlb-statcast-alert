@@ -2840,6 +2840,14 @@
       "pitcher_name": "Paul Skenes",
       "posted_at": "2026-09-18T01:05:05-04:00"
     },
+    "2026-09-18:823572:691725": {
+      "game_date": "2026-09-18",
+      "game_pk": 823572,
+      "lookback_days": 60,
+      "pitcher_id": 691725,
+      "pitcher_name": "Andrew Painter",
+      "posted_at": "2026-09-18T10:16:56-04:00"
+    },
     "2026-09-18:823572:804267": {
       "game_date": "2026-09-18",
       "game_pk": 823572,
