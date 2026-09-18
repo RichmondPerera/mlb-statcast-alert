@@ -2912,6 +2912,14 @@
       "pitcher_name": "Dustin May",
       "posted_at": "2026-09-18T01:05:09-04:00"
     },
+    "2026-09-18:824790:700249": {
+      "game_date": "2026-09-18",
+      "game_pk": 824790,
+      "lookback_days": 60,
+      "pitcher_id": 700249,
+      "pitcher_name": "Cade Povich",
+      "posted_at": "2026-09-18T13:48:25-04:00"
+    },
     "2026-09-19:822847:656302": {
       "game_date": "2026-09-19",
       "game_pk": 822847,
