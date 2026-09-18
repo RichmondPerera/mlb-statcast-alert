@@ -2840,6 +2840,14 @@
       "pitcher_name": "Paul Skenes",
       "posted_at": "2026-09-18T01:05:05-04:00"
     },
+    "2026-09-18:823572:641835": {
+      "game_date": "2026-09-18",
+      "game_pk": 823572,
+      "lookback_days": 120,
+      "pitcher_id": 641835,
+      "pitcher_name": "Tim Mayza",
+      "posted_at": "2026-09-18T16:43:15-04:00"
+    },
     "2026-09-18:823572:691725": {
       "game_date": "2026-09-18",
       "game_pk": 823572,
@@ -3007,6 +3015,14 @@
       "pitcher_id": 663567,
       "pitcher_name": "Peter Lambert",
       "posted_at": "2026-09-18T01:05:53-04:00"
+    },
+    "2026-09-19:824303:687312": {
+      "game_date": "2026-09-19",
+      "game_pk": 824303,
+      "lookback_days": 60,
+      "pitcher_id": 687312,
+      "pitcher_name": "Gabriel Hughes",
+      "posted_at": "2026-09-18T16:43:21-04:00"
     },
     "2026-09-19:824303:693433": {
       "game_date": "2026-09-19",
