@@ -2976,6 +2976,14 @@
       "pitcher_name": "Jack Perkins",
       "posted_at": "2026-09-20T00:46:31-04:00"
     },
+    "2026-09-20:824462:656849": {
+      "game_date": "2026-09-20",
+      "game_pk": 824462,
+      "lookback_days": 60,
+      "pitcher_id": 656849,
+      "pitcher_name": "David Peterson",
+      "posted_at": "2026-09-20T13:02:23-04:00"
+    },
     "2026-09-20:824462:695076": {
       "game_date": "2026-09-20",
       "game_pk": 824462,
