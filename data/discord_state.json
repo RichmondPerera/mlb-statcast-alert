@@ -2760,6 +2760,14 @@
       "pitcher_name": "Jacob deGrom",
       "posted_at": "2026-09-20T00:46:47-04:00"
     },
+    "2026-09-20:822844:693686": {
+      "game_date": "2026-09-20",
+      "game_pk": 822844,
+      "lookback_days": 60,
+      "pitcher_id": 693686,
+      "pitcher_name": "Spencer Miles",
+      "posted_at": "2026-09-20T05:40:54-04:00"
+    },
     "2026-09-20:822922:643377": {
       "game_date": "2026-09-20",
       "game_pk": 822922,
