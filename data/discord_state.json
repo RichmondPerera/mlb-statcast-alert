@@ -2832,6 +2832,14 @@
       "pitcher_name": "Max Scherzer",
       "posted_at": "2026-09-23T02:43:42-04:00"
     },
+    "2026-09-23:824785:605135": {
+      "game_date": "2026-09-23",
+      "game_pk": 824785,
+      "lookback_days": 60,
+      "pitcher_id": 605135,
+      "pitcher_name": "Chris Bassitt",
+      "posted_at": "2026-09-23T13:24:24-04:00"
+    },
     "2026-09-23:824868:519242": {
       "game_date": "2026-09-23",
       "game_pk": 824868,
@@ -2863,6 +2871,14 @@
       "pitcher_id": 669620,
       "pitcher_name": "Brady Basso",
       "posted_at": "2026-09-22T03:35:08-04:00"
+    },
+    "2026-09-24:822841:674003": {
+      "game_date": "2026-09-24",
+      "game_pk": 822841,
+      "lookback_days": 60,
+      "pitcher_id": 674003,
+      "pitcher_name": "Cody Bradford",
+      "posted_at": "2026-09-23T13:24:25-04:00"
     },
     "2026-09-24:822841:690997": {
       "game_date": "2026-09-24",
