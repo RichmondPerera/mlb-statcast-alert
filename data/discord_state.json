@@ -2824,6 +2824,14 @@
       "pitcher_name": "Nick Lodolo",
       "posted_at": "2026-09-25T03:39:01-04:00"
     },
+    "2026-09-25:822760:667755": {
+      "game_date": "2026-09-25",
+      "game_pk": 822760,
+      "lookback_days": 60,
+      "pitcher_id": 667755,
+      "pitcher_name": "Jos\u00e9 Soriano",
+      "posted_at": "2026-09-25T17:22:53-04:00"
+    },
     "2026-09-25:823087:680570": {
       "game_date": "2026-09-25",
       "game_pk": 823087,
