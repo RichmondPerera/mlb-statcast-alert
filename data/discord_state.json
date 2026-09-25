@@ -2864,6 +2864,22 @@
       "pitcher_name": "Trevor Rogers",
       "posted_at": "2026-09-25T03:38:37-04:00"
     },
+    "2026-09-25:823489:687064": {
+      "game_date": "2026-09-25",
+      "game_pk": 823489,
+      "lookback_days": 60,
+      "pitcher_id": 687064,
+      "pitcher_name": "Brandon Young",
+      "posted_at": "2026-09-25T13:55:44-04:00"
+    },
+    "2026-09-25:823491:669432": {
+      "game_date": "2026-09-25",
+      "game_pk": 823491,
+      "lookback_days": 60,
+      "pitcher_id": 669432,
+      "pitcher_name": "Trevor Rogers",
+      "posted_at": "2026-09-25T13:55:40-04:00"
+    },
     "2026-09-25:823491:687064": {
       "game_date": "2026-09-25",
       "game_pk": 823491,
