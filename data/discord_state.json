@@ -2896,6 +2896,14 @@
       "pitcher_name": "Brandon Pfaadt",
       "posted_at": "2026-09-25T03:39:39-04:00"
     },
+    "2026-09-26:823407:605400": {
+      "game_date": "2026-09-26",
+      "game_pk": 823407,
+      "lookback_days": 60,
+      "pitcher_id": 605400,
+      "pitcher_name": "Aaron Nola",
+      "posted_at": "2026-09-26T16:55:49-04:00"
+    },
     "2026-09-26:823407:643377": {
       "game_date": "2026-09-26",
       "game_pk": 823407,
