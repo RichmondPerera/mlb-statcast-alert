@@ -3048,6 +3048,14 @@
       "pitcher_name": "Tarik Skubal",
       "posted_at": "2026-09-25T03:39:48-04:00"
     },
+    "2026-09-26:823248:663554": {
+      "game_date": "2026-09-26",
+      "game_pk": 823248,
+      "lookback_days": 60,
+      "pitcher_id": 663554,
+      "pitcher_name": "Casey Mize",
+      "posted_at": "2026-09-25T20:05:07-04:00"
+    },
     "2026-09-26:823248:694297": {
       "game_date": "2026-09-26",
       "game_pk": 823248,
