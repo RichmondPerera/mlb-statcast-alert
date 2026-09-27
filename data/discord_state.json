@@ -3016,6 +3016,14 @@
       "pitcher_name": "Anthony Kay",
       "posted_at": "2026-09-27T03:11:24-04:00"
     },
+    "2026-09-27:824705:684007": {
+      "game_date": "2026-09-27",
+      "game_pk": 824705,
+      "lookback_days": 60,
+      "pitcher_id": 684007,
+      "pitcher_name": "Shota Imanaga",
+      "posted_at": "2026-09-27T09:06:04-04:00"
+    },
     "2026-09-27:824948:663567": {
       "game_date": "2026-09-27",
       "game_pk": 824948,
