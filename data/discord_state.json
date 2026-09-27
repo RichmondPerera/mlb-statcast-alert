@@ -3048,6 +3048,14 @@
       "pitcher_name": "Walker Buehler",
       "posted_at": "2026-09-26T01:04:24-04:00"
     },
+    "2026-09-27:823245:664199": {
+      "game_date": "2026-09-27",
+      "game_pk": 823245,
+      "lookback_days": 240,
+      "pitcher_id": 664199,
+      "pitcher_name": "Taylor Clarke",
+      "posted_at": "2026-09-26T21:43:33-04:00"
+    },
     "2026-09-27:824949:669713": {
       "game_date": "2026-09-27",
       "game_pk": 824949,
