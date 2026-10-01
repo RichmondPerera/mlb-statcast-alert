@@ -2287,6 +2287,14 @@
       "pitcher_id": 608331,
       "pitcher_name": "Max Fried",
       "posted_at": "2026-09-30T01:42:48-04:00"
+    },
+    "2026-10-02:849844:605400": {
+      "game_date": "2026-10-02",
+      "game_pk": 849844,
+      "lookback_days": 60,
+      "pitcher_id": 605400,
+      "pitcher_name": "Aaron Nola",
+      "posted_at": "2026-10-01T15:51:43-04:00"
     }
   },
   "version": 5
