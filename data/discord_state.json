@@ -1,37 +1,5 @@
 {
   "posted": {
-    "2026-09-21:824787:669358": {
-      "game_date": "2026-09-21",
-      "game_pk": 824787,
-      "lookback_days": 60,
-      "pitcher_id": 669358,
-      "pitcher_name": "Shane Baz",
-      "posted_at": "2026-09-21T00:59:53-04:00"
-    },
-    "2026-09-21:824787:702056": {
-      "game_date": "2026-09-21",
-      "game_pk": 824787,
-      "lookback_days": 60,
-      "pitcher_id": 702056,
-      "pitcher_name": "Trey Yesavage",
-      "posted_at": "2026-09-21T00:59:52-04:00"
-    },
-    "2026-09-22:823169:694918": {
-      "game_date": "2026-09-22",
-      "game_pk": 823169,
-      "lookback_days": 60,
-      "pitcher_id": 694918,
-      "pitcher_name": "Blade Tidwell",
-      "posted_at": "2026-09-21T01:00:02-04:00"
-    },
-    "2026-09-22:823169:805673": {
-      "game_date": "2026-09-22",
-      "game_pk": 823169,
-      "lookback_days": 60,
-      "pitcher_id": 805673,
-      "pitcher_name": "Zebby Matthews",
-      "posted_at": "2026-09-21T01:00:00-04:00"
-    },
     "2026-09-22:823328:669467": {
       "game_date": "2026-09-22",
       "game_pk": 823328,
@@ -1584,6 +1552,22 @@
       "pitcher_name": "Gavin Williams",
       "posted_at": "2026-10-05T05:08:43-04:00"
     },
+    "2026-10-06:849819:519242": {
+      "game_date": "2026-10-06",
+      "game_pk": 849819,
+      "lookback_days": 60,
+      "pitcher_id": 519242,
+      "pitcher_name": "Chris Sale",
+      "posted_at": "2026-10-06T02:45:52-04:00"
+    },
+    "2026-10-06:849819:808967": {
+      "game_date": "2026-10-06",
+      "game_pk": 849819,
+      "lookback_days": 60,
+      "pitcher_id": 808967,
+      "pitcher_name": "Yoshinobu Yamamoto",
+      "posted_at": "2026-10-06T02:45:51-04:00"
+    },
     "2026-10-06:849839:642547": {
       "game_date": "2026-10-06",
       "game_pk": 849839,
@@ -1599,6 +1583,22 @@
       "pitcher_id": 693645,
       "pitcher_name": "Cam Schlittler",
       "posted_at": "2026-10-05T05:08:46-04:00"
+    },
+    "2026-10-07:849826:601713": {
+      "game_date": "2026-10-07",
+      "game_pk": 849826,
+      "lookback_days": 60,
+      "pitcher_id": 601713,
+      "pitcher_name": "Nick Pivetta",
+      "posted_at": "2026-10-06T02:45:55-04:00"
+    },
+    "2026-10-07:849826:669160": {
+      "game_date": "2026-10-07",
+      "game_pk": 849826,
+      "lookback_days": 60,
+      "pitcher_id": 669160,
+      "pitcher_name": "Dustin May",
+      "posted_at": "2026-10-06T02:45:53-04:00"
     }
   },
   "version": 5
