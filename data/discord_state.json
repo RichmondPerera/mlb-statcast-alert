@@ -1384,6 +1384,14 @@
       "pitcher_name": "Walker Buehler",
       "posted_at": "2026-10-07T05:20:27-04:00"
     },
+    "2026-10-08:849827:688107": {
+      "game_date": "2026-10-08",
+      "game_pk": 849827,
+      "lookback_days": 60,
+      "pitcher_id": 688107,
+      "pitcher_name": "Robert Gasser",
+      "posted_at": "2026-10-07T17:52:10-04:00"
+    },
     "2026-10-08:849838:607259": {
       "game_date": "2026-10-08",
       "game_pk": 849838,
