@@ -407,6 +407,22 @@
       "pitcher_id": 656876,
       "pitcher_name": "Drew Rasmussen",
       "posted_at": "2026-10-12T02:03:06-04:00"
+    },
+    "2026-10-14:849813:642547": {
+      "game_date": "2026-10-14",
+      "game_pk": 849813,
+      "lookback_days": 60,
+      "pitcher_id": 642547,
+      "pitcher_name": "Freddy Peralta",
+      "posted_at": "2026-10-13T06:44:24-04:00"
+    },
+    "2026-10-14:849813:800048": {
+      "game_date": "2026-10-14",
+      "game_pk": 849813,
+      "lookback_days": 60,
+      "pitcher_id": 800048,
+      "pitcher_name": "Parker Messick",
+      "posted_at": "2026-10-13T06:44:19-04:00"
     }
   },
   "version": 5
