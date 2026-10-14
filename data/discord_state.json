@@ -1,21 +1,5 @@
 {
   "posted": {
-    "2026-09-29:849845:519242": {
-      "game_date": "2026-09-29",
-      "game_pk": 849845,
-      "lookback_days": 60,
-      "pitcher_id": 519242,
-      "pitcher_name": "Chris Sale",
-      "posted_at": "2026-09-29T05:39:32-04:00"
-    },
-    "2026-09-29:849845:666200": {
-      "game_date": "2026-09-29",
-      "game_pk": 849845,
-      "lookback_days": 60,
-      "pitcher_id": 666200,
-      "pitcher_name": "Jes\u00fas Luzardo",
-      "posted_at": "2026-09-29T05:39:29-04:00"
-    },
     "2026-09-30:849841:641816": {
       "game_date": "2026-09-30",
       "game_pk": 849841,
@@ -32,22 +16,6 @@
       "pitcher_name": "Cristopher S\u00e1nchez",
       "posted_at": "2026-09-30T01:42:41-04:00"
     },
-    "2026-09-30:849843:571510": {
-      "game_date": "2026-09-30",
-      "game_pk": 849843,
-      "lookback_days": 60,
-      "pitcher_id": 571510,
-      "pitcher_name": "Matthew Boyd",
-      "posted_at": "2026-09-29T05:40:02-04:00"
-    },
-    "2026-09-30:849843:650633": {
-      "game_date": "2026-09-30",
-      "game_pk": 849843,
-      "lookback_days": 60,
-      "pitcher_id": 650633,
-      "pitcher_name": "Michael King",
-      "posted_at": "2026-09-29T05:40:08-04:00"
-    },
     "2026-09-30:849846:680732": {
       "game_date": "2026-09-30",
       "game_pk": 849846,
@@ -63,22 +31,6 @@
       "pitcher_id": 686613,
       "pitcher_name": "Hunter Brown",
       "posted_at": "2026-09-30T01:42:45-04:00"
-    },
-    "2026-09-30:849851:693645": {
-      "game_date": "2026-09-30",
-      "game_pk": 849851,
-      "lookback_days": 60,
-      "pitcher_id": 693645,
-      "pitcher_name": "Cam Schlittler",
-      "posted_at": "2026-09-29T05:39:59-04:00"
-    },
-    "2026-09-30:849851:801139": {
-      "game_date": "2026-09-30",
-      "game_pk": 849851,
-      "lookback_days": 60,
-      "pitcher_id": 801139,
-      "pitcher_name": "Payton Tolle",
-      "posted_at": "2026-09-29T05:39:56-04:00"
     },
     "2026-10-01:849842:592332": {
       "game_date": "2026-10-01",
@@ -423,6 +375,22 @@
       "pitcher_id": 800048,
       "pitcher_name": "Parker Messick",
       "posted_at": "2026-10-13T06:44:19-04:00"
+    },
+    "2026-10-15:849811:605483": {
+      "game_date": "2026-10-15",
+      "game_pk": 849811,
+      "lookback_days": 60,
+      "pitcher_id": 605483,
+      "pitcher_name": "Blake Snell",
+      "posted_at": "2026-10-14T02:36:18-04:00"
+    },
+    "2026-10-15:849811:688107": {
+      "game_date": "2026-10-15",
+      "game_pk": 849811,
+      "lookback_days": 60,
+      "pitcher_id": 688107,
+      "pitcher_name": "Robert Gasser",
+      "posted_at": "2026-10-14T02:36:16-04:00"
     }
   },
   "version": 5
