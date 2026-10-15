@@ -1,69 +1,5 @@
 {
   "posted": {
-    "2026-09-30:849841:641816": {
-      "game_date": "2026-09-30",
-      "game_pk": 849841,
-      "lookback_days": 60,
-      "pitcher_id": 641816,
-      "pitcher_name": "Tyler Mahle",
-      "posted_at": "2026-09-30T01:42:43-04:00"
-    },
-    "2026-09-30:849841:650911": {
-      "game_date": "2026-09-30",
-      "game_pk": 849841,
-      "lookback_days": 60,
-      "pitcher_id": 650911,
-      "pitcher_name": "Cristopher S\u00e1nchez",
-      "posted_at": "2026-09-30T01:42:41-04:00"
-    },
-    "2026-09-30:849846:680732": {
-      "game_date": "2026-09-30",
-      "game_pk": 849846,
-      "lookback_days": 60,
-      "pitcher_id": 680732,
-      "pitcher_name": "Sean Burke",
-      "posted_at": "2026-09-30T01:42:44-04:00"
-    },
-    "2026-09-30:849846:686613": {
-      "game_date": "2026-09-30",
-      "game_pk": 849846,
-      "lookback_days": 60,
-      "pitcher_id": 686613,
-      "pitcher_name": "Hunter Brown",
-      "posted_at": "2026-09-30T01:42:45-04:00"
-    },
-    "2026-10-01:849842:592332": {
-      "game_date": "2026-10-01",
-      "game_pk": 849842,
-      "lookback_days": 60,
-      "pitcher_id": 592332,
-      "pitcher_name": "Kevin Gausman",
-      "posted_at": "2026-09-30T01:42:52-04:00"
-    },
-    "2026-10-01:849842:601713": {
-      "game_date": "2026-10-01",
-      "game_pk": 849842,
-      "lookback_days": 60,
-      "pitcher_id": 601713,
-      "pitcher_name": "Nick Pivetta",
-      "posted_at": "2026-09-30T01:42:54-04:00"
-    },
-    "2026-10-01:849848:543243": {
-      "game_date": "2026-10-01",
-      "game_pk": 849848,
-      "lookback_days": 60,
-      "pitcher_id": 543243,
-      "pitcher_name": "Sonny Gray",
-      "posted_at": "2026-09-30T01:42:47-04:00"
-    },
-    "2026-10-01:849848:608331": {
-      "game_date": "2026-10-01",
-      "game_pk": 849848,
-      "lookback_days": 60,
-      "pitcher_id": 608331,
-      "pitcher_name": "Max Fried",
-      "posted_at": "2026-09-30T01:42:48-04:00"
-    },
     "2026-10-02:849844:605400": {
       "game_date": "2026-10-02",
       "game_pk": 849844,
@@ -391,6 +327,30 @@
       "pitcher_id": 688107,
       "pitcher_name": "Robert Gasser",
       "posted_at": "2026-10-14T02:36:16-04:00"
+    },
+    "2026-10-15:849818:643377": {
+      "game_date": "2026-10-15",
+      "game_pk": 849818,
+      "lookback_days": 60,
+      "pitcher_id": 643377,
+      "pitcher_name": "Griffin Jax",
+      "posted_at": "2026-10-15T00:06:29-04:00"
+    },
+    "2026-10-15:849818:668909": {
+      "game_date": "2026-10-15",
+      "game_pk": 849818,
+      "lookback_days": 60,
+      "pitcher_id": 668909,
+      "pitcher_name": "Gavin Williams",
+      "posted_at": "2026-10-15T00:06:32-04:00"
+    },
+    "2026-10-16:849810:607192": {
+      "game_date": "2026-10-16",
+      "game_pk": 849810,
+      "lookback_days": 60,
+      "pitcher_id": 607192,
+      "pitcher_name": "Tyler Glasnow",
+      "posted_at": "2026-10-15T00:06:36-04:00"
     }
   },
   "version": 5
