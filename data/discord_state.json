@@ -1,13 +1,5 @@
 {
   "posted": {
-    "2026-10-02:849844:605400": {
-      "game_date": "2026-10-02",
-      "game_pk": 849844,
-      "lookback_days": 60,
-      "pitcher_id": 605400,
-      "pitcher_name": "Aaron Nola",
-      "posted_at": "2026-10-01T15:51:43-04:00"
-    },
     "2026-10-03:849828:669373": {
       "game_date": "2026-10-03",
       "game_pk": 849828,
@@ -359,6 +351,14 @@
       "pitcher_id": 675660,
       "pitcher_name": "Shane Drohan",
       "posted_at": "2026-10-15T14:21:22-04:00"
+    },
+    "2026-10-17:849817:607259": {
+      "game_date": "2026-10-17",
+      "game_pk": 849817,
+      "lookback_days": 60,
+      "pitcher_id": 607259,
+      "pitcher_name": "Nick Martinez",
+      "posted_at": "2026-10-16T00:02:59-04:00"
     }
   },
   "version": 5
