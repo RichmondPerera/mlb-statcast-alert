@@ -359,6 +359,14 @@
       "pitcher_id": 607259,
       "pitcher_name": "Nick Martinez",
       "posted_at": "2026-10-16T00:02:59-04:00"
+    },
+    "2026-10-18:849816:607259": {
+      "game_date": "2026-10-18",
+      "game_pk": 849816,
+      "lookback_days": 60,
+      "pitcher_id": 607259,
+      "pitcher_name": "Nick Martinez",
+      "posted_at": "2026-10-17T02:04:31-04:00"
     }
   },
   "version": 5
