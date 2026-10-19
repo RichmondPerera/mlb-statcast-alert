@@ -1,29 +1,5 @@
 {
   "posted": {
-    "2026-10-04:849825:650633": {
-      "game_date": "2026-10-04",
-      "game_pk": 849825,
-      "lookback_days": 60,
-      "pitcher_id": 650633,
-      "pitcher_name": "Michael King",
-      "posted_at": "2026-10-04T02:13:38-04:00"
-    },
-    "2026-10-04:849825:701656": {
-      "game_date": "2026-10-04",
-      "game_pk": 849825,
-      "lookback_days": 60,
-      "pitcher_id": 701656,
-      "pitcher_name": "Logan Henderson",
-      "posted_at": "2026-10-04T02:13:40-04:00"
-    },
-    "2026-10-05:849823:605483": {
-      "game_date": "2026-10-05",
-      "game_pk": 849823,
-      "lookback_days": 60,
-      "pitcher_id": 605483,
-      "pitcher_name": "Blake Snell",
-      "posted_at": "2026-10-04T02:13:41-04:00"
-    },
     "2026-10-05:849834:641743": {
       "game_date": "2026-10-05",
       "game_pk": 849834,
@@ -327,6 +303,14 @@
       "pitcher_id": 800048,
       "pitcher_name": "Parker Messick",
       "posted_at": "2026-10-18T02:32:06-04:00"
+    },
+    "2026-10-20:849815:642547": {
+      "game_date": "2026-10-20",
+      "game_pk": 849815,
+      "lookback_days": 60,
+      "pitcher_id": 642547,
+      "pitcher_name": "Freddy Peralta",
+      "posted_at": "2026-10-19T01:22:42-04:00"
     }
   },
   "version": 5
