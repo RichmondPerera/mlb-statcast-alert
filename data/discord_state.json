@@ -1,21 +1,5 @@
 {
   "posted": {
-    "2026-10-06:849819:519242": {
-      "game_date": "2026-10-06",
-      "game_pk": 849819,
-      "lookback_days": 60,
-      "pitcher_id": 519242,
-      "pitcher_name": "Chris Sale",
-      "posted_at": "2026-10-06T02:45:52-04:00"
-    },
-    "2026-10-06:849819:808967": {
-      "game_date": "2026-10-06",
-      "game_pk": 849819,
-      "lookback_days": 60,
-      "pitcher_id": 808967,
-      "pitcher_name": "Yoshinobu Yamamoto",
-      "posted_at": "2026-10-06T02:45:51-04:00"
-    },
     "2026-10-07:849822:607192": {
       "game_date": "2026-10-07",
       "game_pk": 849822,
@@ -31,22 +15,6 @@
       "pitcher_id": 641816,
       "pitcher_name": "Tyler Mahle",
       "posted_at": "2026-10-07T05:20:16-04:00"
-    },
-    "2026-10-07:849826:601713": {
-      "game_date": "2026-10-07",
-      "game_pk": 849826,
-      "lookback_days": 60,
-      "pitcher_id": 601713,
-      "pitcher_name": "Nick Pivetta",
-      "posted_at": "2026-10-06T02:45:55-04:00"
-    },
-    "2026-10-07:849826:669160": {
-      "game_date": "2026-10-07",
-      "game_pk": 849826,
-      "lookback_days": 60,
-      "pitcher_id": 669160,
-      "pitcher_name": "Dustin May",
-      "posted_at": "2026-10-06T02:45:53-04:00"
     },
     "2026-10-07:849833:656794": {
       "game_date": "2026-10-07",
