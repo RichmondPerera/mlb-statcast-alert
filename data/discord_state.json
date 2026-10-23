@@ -1,21 +1,5 @@
 {
   "posted": {
-    "2026-10-09:849832:696146": {
-      "game_date": "2026-10-09",
-      "game_pk": 849832,
-      "lookback_days": 60,
-      "pitcher_id": 696146,
-      "pitcher_name": "Hagen Smith",
-      "posted_at": "2026-10-08T04:01:17-04:00"
-    },
-    "2026-10-09:849832:800048": {
-      "game_date": "2026-10-09",
-      "game_pk": 849832,
-      "lookback_days": 60,
-      "pitcher_id": 800048,
-      "pitcher_name": "Parker Messick",
-      "posted_at": "2026-10-08T04:01:15-04:00"
-    },
     "2026-10-11:849831:668909": {
       "game_date": "2026-10-11",
       "game_pk": 849831,
@@ -183,6 +167,22 @@
       "pitcher_id": 642547,
       "pitcher_name": "Freddy Peralta",
       "posted_at": "2026-10-19T01:22:42-04:00"
+    },
+    "2026-10-24:849805:607259": {
+      "game_date": "2026-10-24",
+      "game_pk": 849805,
+      "lookback_days": 60,
+      "pitcher_id": 607259,
+      "pitcher_name": "Nick Martinez",
+      "posted_at": "2026-10-23T00:58:56-04:00"
+    },
+    "2026-10-24:849805:694819": {
+      "game_date": "2026-10-24",
+      "game_pk": 849805,
+      "lookback_days": 60,
+      "pitcher_id": 694819,
+      "pitcher_name": "Jacob Misiorowski",
+      "posted_at": "2026-10-23T00:58:59-04:00"
     }
   },
   "version": 5
