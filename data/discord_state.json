@@ -183,6 +183,22 @@
       "pitcher_id": 694819,
       "pitcher_name": "Jacob Misiorowski",
       "posted_at": "2026-10-23T00:58:59-04:00"
+    },
+    "2026-10-25:849802:656876": {
+      "game_date": "2026-10-25",
+      "game_pk": 849802,
+      "lookback_days": 60,
+      "pitcher_id": 656876,
+      "pitcher_name": "Drew Rasmussen",
+      "posted_at": "2026-10-24T01:07:02-04:00"
+    },
+    "2026-10-25:849802:701656": {
+      "game_date": "2026-10-25",
+      "game_pk": 849802,
+      "lookback_days": 60,
+      "pitcher_id": 701656,
+      "pitcher_name": "Logan Henderson",
+      "posted_at": "2026-10-24T01:07:03-04:00"
     }
   },
   "version": 5
