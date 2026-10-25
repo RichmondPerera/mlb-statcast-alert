@@ -1,21 +1,5 @@
 {
   "posted": {
-    "2026-10-11:849831:668909": {
-      "game_date": "2026-10-11",
-      "game_pk": 849831,
-      "lookback_days": 60,
-      "pitcher_id": 668909,
-      "pitcher_name": "Gavin Williams",
-      "posted_at": "2026-10-10T01:20:07-04:00"
-    },
-    "2026-10-11:849831:680732": {
-      "game_date": "2026-10-11",
-      "game_pk": 849831,
-      "lookback_days": 60,
-      "pitcher_id": 680732,
-      "pitcher_name": "Sean Burke",
-      "posted_at": "2026-10-10T01:20:03-04:00"
-    },
     "2026-10-12:849809:669373": {
       "game_date": "2026-10-12",
       "game_pk": 849809,
