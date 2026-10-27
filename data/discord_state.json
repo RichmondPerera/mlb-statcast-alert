@@ -159,6 +159,14 @@
       "pitcher_id": 643377,
       "pitcher_name": "Griffin Jax",
       "posted_at": "2026-10-27T02:43:05-04:00"
+    },
+    "2026-10-28:849803:669160": {
+      "game_date": "2026-10-28",
+      "game_pk": 849803,
+      "lookback_days": 60,
+      "pitcher_id": 669160,
+      "pitcher_name": "Dustin May",
+      "posted_at": "2026-10-27T18:31:50-04:00"
     }
   },
   "version": 5
