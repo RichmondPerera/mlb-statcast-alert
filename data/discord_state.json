@@ -1,37 +1,5 @@
 {
   "posted": {
-    "2026-10-12:849812:701656": {
-      "game_date": "2026-10-12",
-      "game_pk": 849812,
-      "lookback_days": 60,
-      "pitcher_id": 701656,
-      "pitcher_name": "Logan Henderson",
-      "posted_at": "2026-10-12T02:03:02-04:00"
-    },
-    "2026-10-12:849812:808967": {
-      "game_date": "2026-10-12",
-      "game_pk": 849812,
-      "lookback_days": 60,
-      "pitcher_id": 808967,
-      "pitcher_name": "Yoshinobu Yamamoto",
-      "posted_at": "2026-10-12T02:03:01-04:00"
-    },
-    "2026-10-13:849820:656492": {
-      "game_date": "2026-10-13",
-      "game_pk": 849820,
-      "lookback_days": 60,
-      "pitcher_id": 656492,
-      "pitcher_name": "Foster Griffin",
-      "posted_at": "2026-10-12T02:03:05-04:00"
-    },
-    "2026-10-13:849820:656876": {
-      "game_date": "2026-10-13",
-      "game_pk": 849820,
-      "lookback_days": 60,
-      "pitcher_id": 656876,
-      "pitcher_name": "Drew Rasmussen",
-      "posted_at": "2026-10-12T02:03:06-04:00"
-    },
     "2026-10-14:849813:642547": {
       "game_date": "2026-10-14",
       "game_pk": 849813,
@@ -183,6 +151,14 @@
       "pitcher_id": 688107,
       "pitcher_name": "Robert Gasser",
       "posted_at": "2026-10-26T01:23:28-04:00"
+    },
+    "2026-10-28:849803:643377": {
+      "game_date": "2026-10-28",
+      "game_pk": 849803,
+      "lookback_days": 60,
+      "pitcher_id": 643377,
+      "pitcher_name": "Griffin Jax",
+      "posted_at": "2026-10-27T02:43:05-04:00"
     }
   },
   "version": 5
