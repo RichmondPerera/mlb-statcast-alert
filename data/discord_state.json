@@ -1,21 +1,5 @@
 {
   "posted": {
-    "2026-10-14:849813:642547": {
-      "game_date": "2026-10-14",
-      "game_pk": 849813,
-      "lookback_days": 60,
-      "pitcher_id": 642547,
-      "pitcher_name": "Freddy Peralta",
-      "posted_at": "2026-10-13T06:44:24-04:00"
-    },
-    "2026-10-14:849813:800048": {
-      "game_date": "2026-10-14",
-      "game_pk": 849813,
-      "lookback_days": 60,
-      "pitcher_id": 800048,
-      "pitcher_name": "Parker Messick",
-      "posted_at": "2026-10-13T06:44:19-04:00"
-    },
     "2026-10-15:849811:605483": {
       "game_date": "2026-10-15",
       "game_pk": 849811,
@@ -167,6 +151,14 @@
       "pitcher_id": 669160,
       "pitcher_name": "Dustin May",
       "posted_at": "2026-10-27T18:31:50-04:00"
+    },
+    "2026-10-29:849799:694819": {
+      "game_date": "2026-10-29",
+      "game_pk": 849799,
+      "lookback_days": 60,
+      "pitcher_id": 694819,
+      "pitcher_name": "Jacob Misiorowski",
+      "posted_at": "2026-10-28T04:08:27-04:00"
     }
   },
   "version": 5
