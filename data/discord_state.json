@@ -152,6 +152,14 @@
       "pitcher_name": "Dustin May",
       "posted_at": "2026-10-27T18:31:50-04:00"
     },
+    "2026-10-29:849799:656876": {
+      "game_date": "2026-10-29",
+      "game_pk": 849799,
+      "lookback_days": 60,
+      "pitcher_id": 656876,
+      "pitcher_name": "Drew Rasmussen",
+      "posted_at": "2026-10-28T16:18:32-04:00"
+    },
     "2026-10-29:849799:694819": {
       "game_date": "2026-10-29",
       "game_pk": 849799,
